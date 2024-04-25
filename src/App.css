@@ -1,15 +1,31 @@
+:root {
+  --color-white: #fff;
+  --color-gray01: #f7f7f7;
+  --color-gray02: #eaeaea;
+  --color-gray03: #ccc;
+
+  --color-red: #ff7875;
+  --color-blue: #4096ff;
+  --color-yellow: #ffc53d;
+  --color-green: #a0d911;
+}
+
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Pretendard", Helvetica;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
 }
 
 html {
   height: 100%;
-  font-size: 62.5%;
 }
 
 body {
   height: 100%;
-  padding: 0;
-  margin: 0;
-  font-family: "Pretendard", Helvetica;
 }

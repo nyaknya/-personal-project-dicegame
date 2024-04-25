@@ -1,7 +1,17 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/MainPage";
+import DicePageDefault from "./pages/DicePageDefault";
 import "./App.css";
 
 function App() {
-  return <h1>애들아 이제 만들어볼게</h1>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/dicedefault" element={<DicePageDefault />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
