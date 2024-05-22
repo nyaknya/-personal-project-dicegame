@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import ContentBox from "../../components/ContentBox";
 import "./style.css";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import calculator from "../../utils/calculator";
 
 export default function Home() {
   const [diceValue, setDiceValue] = useState<number>(0);
   const [sliderValue, setSliderValue] = useState<number>(0);
   const [results, setResults] = useState<number[]>([]);
+  const [total, setTotal] = useState<number>(0);
 
   const handleDiceChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDiceValue(Number(e.target.value));
@@ -23,11 +24,16 @@ export default function Home() {
     setResults(result);
   };
 
+  useEffect(() => {
+    const sum = results.reduce((acc, curr) => acc + curr, 0);
+    setTotal(sum);
+  }, [results]);
+
   return (
     <div className="index-container">
       <h2>인덱스페이지</h2>
       <ContentBox className="basic-calculator">
-        <h3>일단 기본적인 확률 계산기를 만들어볼게요.</h3>
+        <h3>일단 기본적인 다이스 롤러를 만들어볼게요.</h3>
         <div>
           <form onSubmit={handleSubmit}>
             <div className="input-box">
@@ -54,6 +60,7 @@ export default function Home() {
       <ContentBox>
         <h4>결과창</h4>
         <p>결과 : {results.join(", ")}</p>
+        <p>총 합계: {total}</p>
       </ContentBox>
     </div>
   );
