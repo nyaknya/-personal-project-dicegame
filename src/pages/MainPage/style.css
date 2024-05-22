@@ -28,3 +28,44 @@
   background: var(--color-blue);
   color: var(--color-white);
 }
+
+/* ================== */
+
+.basic-calculator {
+  text-align: center;
+}
+
+.basic-calculator h3 {
+  margin-bottom: 10px;
+}
+
+.basic-calculator .input-box {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.basic-calculator input {
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 80px;
+}
+
+.basic-calculator input::placeholder {
+  color: #ccc;
+}
+
+.basic-calculator .basic-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: 0;
+  font-size: 16px;
+  background: #f0bc10;
+  color: #fff;
+}
