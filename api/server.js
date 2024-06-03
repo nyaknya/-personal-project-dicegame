@@ -8,18 +8,18 @@ app.use(bodyParser.json());
 
 const filePath = path.join(__dirname, "../characters.js");
 
-// 파일 읽기
 app.get("/characters", (req, res) => {
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.error("Error reading file:", err);
       return res.status(500).send("Error reading file");
     }
-    res.send(data);
+
+    const characters = eval(data);
+    res.json(characters);
   });
 });
 
-// 파일 쓰기
 app.post("/characters", (req, res) => {
   const newData = req.body.data;
   fs.writeFile(filePath, newData, "utf8", (err) => {
@@ -28,6 +28,43 @@ app.post("/characters", (req, res) => {
       return res.status(500).send("Error writing file");
     }
     res.send("File updated successfully");
+  });
+});
+
+app.patch("/characters", (req, res) => {
+  const updatedCharacter = req.body.character;
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      return res.status(500).send("Error reading file");
+    }
+
+    let characters = eval(data);
+    const index = characters.findIndex((c) => c.name === updatedCharacter.name);
+
+    if (index === -1) {
+      return res.status(404).send("Character not found");
+    }
+
+    characters[index] = { ...characters[index], ...updatedCharacter };
+
+    fs.writeFile(
+      filePath,
+      `const characters = ${JSON.stringify(
+        characters,
+        null,
+        2
+      )};\nmodule.exports = characters;`,
+      "utf8",
+      (err) => {
+        if (err) {
+          console.error("Error writing file:", err);
+          return res.status(500).send("Error writing file");
+        }
+        res.send("Character updated successfully");
+      }
+    );
   });
 });
 

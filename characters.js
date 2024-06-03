@@ -216,3 +216,4 @@ const characters = [
     status: "weakness",
   },
 ];
+module.exports = characters;
