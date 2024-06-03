@@ -2,7 +2,6 @@ import ContentBox from "../../components/ContentBox";
 import "./style.css";
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import calculator from "../../utils/calculator";
-import CharacterEditor from "../../components/CharacterEditor";
 
 export default function Home() {
   const [diceValue, setDiceValue] = useState<number>(0);
@@ -62,7 +61,6 @@ export default function Home() {
         <p>결과 : {results.join(", ")}</p>
         <p>총 합계: {total}</p>
       </ContentBox>
-      <CharacterEditor />
     </div>
   );
 }
