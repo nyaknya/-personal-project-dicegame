@@ -7,7 +7,7 @@ const port = 5000;
 
 app.use(bodyParser.json());
 
-const filePath = path.join(__dirname, "characters.js");
+const filePath = path.join(__dirname, "../characters.js");
 
 app.get("/characters", (req, res) => {
   fs.readFile(filePath, "utf8", (err, data) => {

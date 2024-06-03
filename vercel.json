@@ -1,0 +1,3 @@
+{
+  "rewrites": [{ "source": "/characters", "destination": "/api/server" }]
+}
