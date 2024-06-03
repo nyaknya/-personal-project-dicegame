@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 interface Character {
   name: string;
@@ -10,23 +11,19 @@ interface Character {
   status: string | null;
 }
 
-const CharacterEditor: React.FC = () => {
+const CharacterEditor = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
   const [error, setError] = useState<string | null>(null);
+  const [jsonError, setJsonError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/characters")
+    axios
+      .get("/characters")
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCharacters(data);
+        setCharacters(response.data);
         setError(null); // 오류 메시지 초기화
       })
       .catch((error) => {
@@ -49,21 +46,10 @@ const CharacterEditor: React.FC = () => {
       return;
     }
 
-    fetch("/characters", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ character: selectedCharacter }),
-    })
+    axios
+      .patch("/characters", { character: selectedCharacter })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.text();
-      })
-      .then((message) => {
-        alert(message);
+        alert(response.data);
         setError(null); // 오류 메시지 초기화
         // 저장 후 캐릭터 목록을 갱신합니다.
         setCharacters(
@@ -76,6 +62,18 @@ const CharacterEditor: React.FC = () => {
         setError("Error saving file");
         console.error("Error saving character data:", error);
       });
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    try {
+      const updatedCharacter = JSON.parse(value);
+      setSelectedCharacter(updatedCharacter);
+      setJsonError(null); // JSON 오류 메시지 초기화
+    } catch (err) {
+      setJsonError("Invalid JSON syntax");
+      console.error("Invalid JSON", err);
+    }
   };
 
   return (
@@ -91,6 +89,7 @@ const CharacterEditor: React.FC = () => {
                 (char) => char.name === e.target.value
               );
               setSelectedCharacter(char || null);
+              setJsonError(null); // 캐릭터 변경 시 JSON 오류 메시지 초기화
             }}
           >
             <option value="">Select...</option>
@@ -108,17 +107,13 @@ const CharacterEditor: React.FC = () => {
             rows={20}
             cols={80}
             value={JSON.stringify(selectedCharacter, null, 2)}
-            onChange={(e) => {
-              try {
-                const updatedCharacter = JSON.parse(e.target.value);
-                setSelectedCharacter(updatedCharacter);
-              } catch (err) {
-                console.error("Invalid JSON", err);
-              }
-            }}
+            onChange={handleTextareaChange}
           />
+          {jsonError && <div style={{ color: "red" }}>{jsonError}</div>}
           <br />
-          <button onClick={saveData}>Save</button>
+          <button onClick={saveData} disabled={!!jsonError}>
+            Save
+          </button>
         </div>
       )}
     </div>
