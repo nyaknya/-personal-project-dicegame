@@ -1,12 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const CharacterEditor = () => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/characters")
-      .then((response) => response.text())
-      .then((text) => setData(text));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.text();
+      })
+      .then((text) => {
+        setData(text);
+        setError(null);
+      })
+      .catch((error) => {
+        setError("Error reading file");
+        console.error("Error fetching character data:", error);
+      });
   }, []);
 
   const saveData = () => {
@@ -17,13 +30,26 @@ const CharacterEditor = () => {
       },
       body: JSON.stringify({ data }),
     })
-      .then((response) => response.text())
-      .then((message) => alert(message));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.text();
+      })
+      .then((message) => {
+        alert(message);
+        setError(null);
+      })
+      .catch((error) => {
+        setError("Error saving file");
+        console.error("Error saving character data:", error);
+      });
   };
 
   return (
     <div>
       <h1>Character Editor</h1>
+      {error && <div style={{ color: "red" }}>{error}</div>}
       <textarea
         rows={20}
         cols={80}
