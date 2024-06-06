@@ -1,24 +1,57 @@
+import "./style.css";
+import CharacterItem from "./CharacterItem";
+
 export default function SideBar() {
   return (
-    <>
-      <h2>캐릭터 리스트</h2>
-      <div className="close-button">
-        close <img src="/images/sidebar.svg" alt="사이드바 토글 아이콘" />
+    <div className="sidebar-wrap">
+      <div className="character-list-header">
+        <h2>캐릭터 리스트</h2>
+        <div className="close-button">
+          close <img src="/images/sidebar.svg" alt="사이드바 토글 아이콘" />
+        </div>
       </div>
-      <div className="character-list-wrap">
+      <div className="character-list-container">
         <div className="category">
-          <h3>이름</h3>
-          <h3>체력</h3>
-          <h3>정신력</h3>
-          <h3>호</h3>
-          <h3>창</h3>
-          <h3>이</h3>
-          <h3>상태</h3>
+          <span>이름</span>
+          <span>체력</span>
+          <span>정신력</span>
+          <span>호</span>
+          <span>창</span>
+          <span>이</span>
+          <span>상태</span>
         </div>
         <div className="character-list">
-          <div>각 캐릭터 리스트 컴포넌트</div>
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
+          <CharacterItem />
         </div>
       </div>
-    </>
+    </div>
   );
 }

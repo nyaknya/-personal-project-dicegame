@@ -1,0 +1,22 @@
+.character-item {
+  display: grid;
+  grid-template-columns: auto 36px 46px 24px 24px 24px 45px;
+  align-items: center;
+  width: 100%;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--color-gray02);
+  text-align: center;
+  font-size: 14px;
+}
+
+.character-item span:first-child {
+  text-align: left;
+}
+
+.character-item span:last-child {
+  font-size: 10px;
+  padding: 5px 10px;
+  background: var(--color-green);
+  border-radius: 50px;
+  margin-left: 5px;
+}

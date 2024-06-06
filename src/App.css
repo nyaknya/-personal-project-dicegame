@@ -7,7 +7,7 @@
   --color-red: #ff7875;
   --color-blue: #4096ff;
   --color-yellow: #ffc53d;
-  --color-green: #a0d911;
+  --color-green: #e1ffcf;
 }
 
 * {
@@ -15,6 +15,7 @@
   padding: 0;
   margin: 0;
   font-family: "Pretendard", Helvetica;
+  letter-spacing: -0.02em;
 }
 
 a {

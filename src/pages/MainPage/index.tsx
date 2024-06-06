@@ -2,6 +2,7 @@ import ContentBox from "../../components/ContentBox";
 import "./style.css";
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import calculator from "../../utils/calculator";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [diceValue, setDiceValue] = useState<number>(0);
@@ -30,7 +31,9 @@ export default function Home() {
 
   return (
     <div className="index-container">
-      <h2>인덱스페이지</h2>
+      <h2>
+        메인페이지는 아직 디자인이 안됐습니다 일단 테스트 페이지 모음이 될듯
+      </h2>
       <ContentBox className="basic-calculator">
         <h3>일단 기본적인 다이스 롤러를 만들어볼게요.</h3>
         <div>
@@ -60,6 +63,11 @@ export default function Home() {
         <h4>결과창</h4>
         <p>결과 : {results.join(", ")}</p>
         <p>총 합계: {total}</p>
+      </ContentBox>
+      <ContentBox>
+        <Link to="/dicedefault" className="page-button">
+          다이스 기본 페이지로 이동
+        </Link>
       </ContentBox>
     </div>
   );
