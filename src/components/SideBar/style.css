@@ -4,13 +4,34 @@
   width: 450px;
   height: 100vh;
   padding: 40px 20px 40px 40px;
+  transition: all 0.3s;
+}
+
+.sidebar-wrap.closed {
+  width: 80px;
+  padding: 40px 10px;
+}
+
+.sidebar-wrap.closed .close-button {
+  order: -1;
+}
+
+.character-list-header h2 {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+}
+
+.sidebar-wrap.open .character-list-header h2 {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s 0.3s, visibility 0.3s 0.3s;
 }
 
 .character-list-header,
 .close-button {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .character-list-header {
@@ -21,6 +42,17 @@
 .close-button {
   cursor: pointer;
   gap: 5px;
+  align-items: flex-start;
+}
+
+.character-list-container.hidden {
+  opacity: 0;
+}
+
+.character-list-container.visible {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s 0.3s;
 }
 
 .character-list {
