@@ -8,6 +8,10 @@ app.use(bodyParser.json());
 
 const filePath = path.join(__dirname, "../characters.js");
 
+app.get("/", (req, res) => {
+  res.send("기본");
+});
+
 app.get("/characters", (req, res) => {
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {

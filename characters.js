@@ -7,6 +7,7 @@ const characters = [
     creativity: 2,
     kindness: 5,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_2",
@@ -16,6 +17,7 @@ const characters = [
     creativity: 1,
     kindness: 4,
     status: "weakness",
+    equipment: null,
   },
   {
     name: "Character_3",
@@ -25,6 +27,7 @@ const characters = [
     creativity: 1,
     kindness: 5,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_4",
@@ -34,6 +37,7 @@ const characters = [
     creativity: 2,
     kindness: 3,
     status: "weakness",
+    equipment: null,
   },
   {
     name: "Character_5",
@@ -43,6 +47,7 @@ const characters = [
     creativity: 1,
     kindness: 1,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_6",
@@ -52,6 +57,7 @@ const characters = [
     creativity: 5,
     kindness: 0,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_7",
@@ -61,6 +67,7 @@ const characters = [
     creativity: 2,
     kindness: 1,
     status: "infection",
+    equipment: null,
   },
   {
     name: "Character_8",
@@ -70,6 +77,7 @@ const characters = [
     creativity: 1,
     kindness: 1,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_9",
@@ -79,6 +87,7 @@ const characters = [
     creativity: 1,
     kindness: 0,
     status: "infection",
+    equipment: null,
   },
   {
     name: "Character_10",
@@ -88,6 +97,7 @@ const characters = [
     creativity: 1,
     kindness: 0,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_11",
@@ -97,6 +107,7 @@ const characters = [
     creativity: 1,
     kindness: 0,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_12",
@@ -106,6 +117,7 @@ const characters = [
     creativity: 1,
     kindness: 1,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_13",
@@ -115,6 +127,7 @@ const characters = [
     creativity: 2,
     kindness: 1,
     status: "weakness",
+    equipment: null,
   },
   {
     name: "Character_14",
@@ -124,6 +137,7 @@ const characters = [
     creativity: 5,
     kindness: 2,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_15",
@@ -133,6 +147,7 @@ const characters = [
     creativity: 3,
     kindness: 2,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_16",
@@ -142,6 +157,7 @@ const characters = [
     creativity: 2,
     kindness: 1,
     status: "infection",
+    equipment: null,
   },
   {
     name: "Character_17",
@@ -151,6 +167,7 @@ const characters = [
     creativity: 2,
     kindness: 2,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_18",
@@ -160,6 +177,7 @@ const characters = [
     creativity: 3,
     kindness: 3,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_19",
@@ -169,6 +187,7 @@ const characters = [
     creativity: 1,
     kindness: 0,
     status: "infection",
+    equipment: null,
   },
   {
     name: "Character_20",
@@ -178,6 +197,7 @@ const characters = [
     creativity: 1,
     kindness: 2,
     status: "weakness",
+    equipment: null,
   },
   {
     name: "Character_21",
@@ -187,6 +207,7 @@ const characters = [
     creativity: 1,
     kindness: 1,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_22",
@@ -196,6 +217,7 @@ const characters = [
     creativity: 1,
     kindness: 2,
     status: "infection",
+    equipment: null,
   },
   {
     name: "Character_23",
@@ -205,6 +227,7 @@ const characters = [
     creativity: 5,
     kindness: 1,
     status: null,
+    equipment: null,
   },
   {
     name: "Character_24",
@@ -214,6 +237,7 @@ const characters = [
     creativity: 2,
     kindness: 2,
     status: "weakness",
+    equipment: null,
   },
 ];
 module.exports = characters;
