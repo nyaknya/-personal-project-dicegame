@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./style.css";
 import CharacterItem from "./CharacterItem";
+import { CharactersContext } from "../../context/CharactersContext";
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(true);
+  const { characters } = useContext(CharactersContext);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -31,8 +33,8 @@ export default function SideBar() {
           <span>상태</span>
         </div>
         <div className="character-list">
-          {Array.from({ length: 30 }, (_, index) => (
-            <CharacterItem key={index} />
+          {characters.map((character) => (
+            <CharacterItem key={character.name} character={character} /> // 데이터 props로 전달
           ))}
         </div>
       </div>

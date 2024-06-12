@@ -1,15 +1,35 @@
 import "./style.css";
+import { Status, Character } from "../../../types";
 
-export default function CharacterItem() {
+interface CharacterItemProps {
+  character: Character;
+}
+
+export default function CharacterItem({ character }: CharacterItemProps) {
+  const { name, hp, mental, aggressive, creativity, kindness, status } =
+    character;
+
+  const getStatusText = (status: Status | null): string => {
+    switch (status) {
+      case "weakness":
+        return "쇠약";
+      case "infection":
+        return "감염";
+      case null:
+      default:
+        return "정상";
+    }
+  };
+
   return (
     <div className="character-item">
-      <span>성씨최대여섯 글자까지오겠</span>
-      <span>100</span>
-      <span>100</span>
-      <span>5</span>
-      <span>3</span>
-      <span>0</span>
-      <span className="defalut">정상</span>
+      <span>{name}</span>
+      <span>{hp}</span>
+      <span>{mental}</span>
+      <span>{aggressive}</span>
+      <span>{creativity}</span>
+      <span>{kindness}</span>
+      <span className={`default ${status}`}>{getStatusText(status)}</span>
     </div>
   );
 }
