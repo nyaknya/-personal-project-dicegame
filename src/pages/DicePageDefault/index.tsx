@@ -1,6 +1,14 @@
 import SideBar from "../../components/SideBar";
+import "./style.css";
+import Trial from "../../components/Trial";
 
-// 나중에 다이스페이지 레이아웃 하나 만들어서 넣어야할듯
 export default function DicePageDefault() {
-  return <SideBar></SideBar>;
+  return (
+    <div className="dicepage-wrapper">
+      <SideBar></SideBar>
+      <div className="dicepage-content">
+        <Trial></Trial>
+      </div>
+    </div>
+  );
 }
