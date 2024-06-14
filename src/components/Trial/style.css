@@ -5,9 +5,10 @@
 .trial-title {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  align-items: center;
 }
 
 .trial-caption {
   display: flex;
+  gap: 16px;
 }
