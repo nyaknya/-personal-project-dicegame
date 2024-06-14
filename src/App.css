@@ -18,6 +18,11 @@
   letter-spacing: -0.02em;
 }
 
+ul,
+li {
+  list-style: none;
+}
+
 a {
   text-decoration: none;
   color: unset;

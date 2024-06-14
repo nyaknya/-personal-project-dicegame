@@ -1,0 +1,13 @@
+.trial-wrapper {
+  width: 960px;
+}
+
+.trial-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.trial-caption {
+  display: flex;
+}
