@@ -1,11 +1,14 @@
 import "./style.css";
+import PeopleCounter from "./PeopleCounter";
 
 export default function Trial() {
   return (
     <div className="trial-wrapper">
       <div className="trial-title">
-        <h2>난관 굴림</h2>
-        <div className="trial-people-count">카운트 들어올곳(주스탠드 활용)</div>
+        <div className="trial-counter">
+          <h2>난관 굴림</h2>
+          <PeopleCounter />
+        </div>
         <ul className="trial-caption">
           <li>참여 인원 : N명</li>
           <li>호전성 총합 : NN</li>

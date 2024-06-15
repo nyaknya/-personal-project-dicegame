@@ -12,3 +12,9 @@
   display: flex;
   gap: 16px;
 }
+
+.trial-counter {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
