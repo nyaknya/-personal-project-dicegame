@@ -1,5 +1,6 @@
 import "./style.css";
 import PeopleCounter from "./PeopleCounter";
+import SelectCharacter from "./SelectCharacter";
 
 export default function Trial() {
   return (
@@ -16,6 +17,7 @@ export default function Trial() {
           <li>이타성 총합 : NN</li>
         </ul>
       </div>
+      <SelectCharacter />
     </div>
   );
 }

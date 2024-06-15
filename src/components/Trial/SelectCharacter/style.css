@@ -1,0 +1,59 @@
+.trial-select {
+  margin-top: 10px;
+  height: 530px;
+  border-bottom: 1px solid var(--color-gray03);
+}
+
+.select-category {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: var(--color-gray02);
+  gap: 30px;
+}
+
+.select-category .name {
+  min-width: 210px;
+  text-align: left;
+}
+
+.select-category .stats {
+  min-width: 260px;
+  display: flex;
+  gap: 50px;
+}
+
+.select-category .debuff {
+  min-width: 160px;
+}
+
+.select-category .equipment {
+  text-align: center;
+}
+
+.select-category input {
+  width: 20px;
+  height: 20px;
+}
+
+.select-content {
+  height: 478px;
+  overflow-y: scroll;
+}
+
+.select-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.select-content::-webkit-scrollbar-button {
+  display: none;
+}
+
+.select-content::-webkit-scrollbar-track {
+  background: var(--color-gray02);
+}
+
+.select-content::-webkit-scrollbar-thumb {
+  background: var(--color-yellow);
+  border-radius: 50px;
+}
