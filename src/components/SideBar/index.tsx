@@ -16,7 +16,7 @@ export default function SideBar() {
       <div className="character-list-header">
         <h2>캐릭터 리스트</h2>
         <div className="close-button" onClick={handleToggle}>
-          {isOpen ? "close" : "open"}{" "}
+          {isOpen ? "close" : "open"}
           <img src="/images/sidebar.svg" alt="사이드바 토글 아이콘" />
         </div>
       </div>
