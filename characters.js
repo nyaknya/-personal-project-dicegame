@@ -30,7 +30,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "에밀리 미정",
+    name: "에이미 미정",
     hp: 90,
     mental: 100,
     aggressive: 2,
