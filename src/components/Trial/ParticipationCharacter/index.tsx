@@ -3,6 +3,7 @@ import "./style.css";
 import { CharactersContext } from "../../../context/CharactersContext";
 import useOutSideClick from "../../../hooks/useOutSideClick";
 import { Character } from "../../../types";
+import StatsCounter from "../StatsCounter";
 
 export default function ParticipationCharacter() {
   const { characters } = useContext(CharactersContext);
@@ -45,9 +46,9 @@ export default function ParticipationCharacter() {
         </div>
         {isOpen && (
           <ul className="character-select">
-            {characters.map((character, index) => (
+            {characters.map((character) => (
               <li
-                key={index}
+                key={character.name}
                 className="character-option"
                 onClick={() => handleCharacterClick(character)}
               >
@@ -57,6 +58,15 @@ export default function ParticipationCharacter() {
           </ul>
         )}
       </div>
+      {selectedCharacter ? (
+        <div className="select-stats">
+          <StatsCounter initial={selectedCharacter.aggressive} />
+          <StatsCounter initial={selectedCharacter.creativity} />
+          <StatsCounter initial={selectedCharacter.kindness} />
+        </div>
+      ) : (
+        <span className="no-selection">캐릭터를 선택해주세요.</span>
+      )}
     </div>
   );
 }
