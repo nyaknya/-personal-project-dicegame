@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import "./style.css";
 import { CharactersContext } from "../../../context/CharactersContext";
+import useOutSideClick from "../../../hooks/useOutSideClick";
 
 export default function ParticipationCharacter() {
   const { characters } = useContext(CharactersContext);
@@ -8,6 +9,7 @@ export default function ParticipationCharacter() {
     null
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleCharacterClick = (name: string) => {
     setSelectedCharacter(name);
@@ -18,21 +20,26 @@ export default function ParticipationCharacter() {
     setIsOpen(!isOpen);
   };
 
+  useOutSideClick({
+    ref,
+    callback: () => setIsOpen(false),
+  });
+
   return (
     <div className="selected-character">
       <div className="select-box">
         <input type="checkbox" />
       </div>
-      <div className="select-list">
+      <div className="select-list" ref={ref}>
         <div
           className={`now-selected ${selectedCharacter ? "" : "no-selection"}`}
           onClick={toggleOpenClose}
         >
           {selectedCharacter ? selectedCharacter : "캐릭터를 선택하세요."}
           {isOpen ? (
-            <img src="/images/up.svg" />
+            <img src="/images/up.svg" alt="위 화살표" />
           ) : (
-            <img src="/images/down.svg" />
+            <img src="/images/down.svg" alt="아래 화살표" />
           )}
         </div>
         {isOpen && (
