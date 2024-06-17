@@ -60,9 +60,18 @@ export default function ParticipationCharacter() {
       </div>
       {selectedCharacter ? (
         <div className="select-stats">
-          <StatsCounter initial={selectedCharacter.aggressive} />
-          <StatsCounter initial={selectedCharacter.creativity} />
-          <StatsCounter initial={selectedCharacter.kindness} />
+          <StatsCounter
+            key={`${selectedCharacter.name}-aggressive`}
+            initial={selectedCharacter.aggressive}
+          />
+          <StatsCounter
+            key={`${selectedCharacter.name}-creativity`}
+            initial={selectedCharacter.creativity}
+          />
+          <StatsCounter
+            key={`${selectedCharacter.name}-kindness`}
+            initial={selectedCharacter.kindness}
+          />
         </div>
       ) : (
         <span className="no-selection">캐릭터를 선택해주세요.</span>
