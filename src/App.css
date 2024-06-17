@@ -3,6 +3,7 @@
   --color-gray01: #f7f7f7;
   --color-gray02: #eaeaea;
   --color-gray03: #ccc;
+  --color-gray04: #828282;
 
   --color-red: #ff7875;
   --color-blue: #4096ff;
@@ -34,4 +35,21 @@ html {
 
 body {
   height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gray02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-yellow);
+  border-radius: 50px;
 }

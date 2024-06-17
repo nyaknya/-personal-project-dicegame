@@ -10,6 +10,7 @@
   padding: 15px;
   background: var(--color-gray02);
   gap: 30px;
+  font-size: 15px;
 }
 
 .select-category .name {
@@ -39,6 +40,7 @@
 .select-content {
   height: 478px;
   overflow-y: scroll;
+  padding: 7px 0;
 }
 
 .select-content::-webkit-scrollbar {

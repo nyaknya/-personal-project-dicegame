@@ -7,11 +7,15 @@ export default function ParticipationCharacter() {
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>(
     null
   );
-
-  console.log(characters);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleCharacterClick = (name: string) => {
     setSelectedCharacter(name);
+    setIsOpen(false);
+  };
+
+  const toggleOpenClose = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -20,20 +24,30 @@ export default function ParticipationCharacter() {
         <input type="checkbox" />
       </div>
       <div className="select-list">
-        <span>
+        <div
+          className={`now-selected ${selectedCharacter ? "" : "no-selection"}`}
+          onClick={toggleOpenClose}
+        >
           {selectedCharacter ? selectedCharacter : "캐릭터를 선택하세요."}
-        </span>
-        <ul className="character-select">
-          {characters.map((character, index) => (
-            <li
-              key={index}
-              className="character-option"
-              onClick={() => handleCharacterClick(character.name)}
-            >
-              {character.name}
-            </li>
-          ))}
-        </ul>
+          {isOpen ? (
+            <img src="/images/up.svg" />
+          ) : (
+            <img src="/images/down.svg" />
+          )}
+        </div>
+        {isOpen && (
+          <ul className="character-select">
+            {characters.map((character, index) => (
+              <li
+                key={index}
+                className="character-option"
+                onClick={() => handleCharacterClick(character.name)}
+              >
+                {character.name}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
