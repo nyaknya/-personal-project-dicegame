@@ -76,6 +76,21 @@ export default function ParticipationCharacter() {
       ) : (
         <span className="no-selection">캐릭터를 선택해주세요.</span>
       )}
+      {selectedCharacter && (
+        <div className="select-condition">
+          <div>
+            <input type="checkbox" id="weakness" />
+            <label htmlFor="weakness">쇠약</label>
+          </div>
+          <div>
+            <input type="checkbox" id="infection" />
+            <label htmlFor="infection">감염</label>
+          </div>
+        </div>
+      )}
+      {selectedCharacter && (
+        <div className="select-equipment">{selectedCharacter.equipment}</div>
+      )}
     </div>
   );
 }

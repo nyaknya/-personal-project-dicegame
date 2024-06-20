@@ -7,7 +7,7 @@ const characters = [
     creativity: 3,
     kindness: 0,
     status: null,
-    equipment: null,
+    equipment: "알루미늄 야구 배트, 절삭 공구",
   },
   {
     name: "케이티 하워드",
@@ -17,7 +17,7 @@ const characters = [
     creativity: 4,
     kindness: 0,
     status: null,
-    equipment: null,
+    equipment: "전기톱, 손도끼",
   },
   {
     name: "헤일리 데어",

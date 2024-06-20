@@ -10,7 +10,7 @@
   padding: 15px;
   background: var(--color-gray02);
   gap: 30px;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .select-category .name {
@@ -22,6 +22,10 @@
   min-width: 260px;
   display: flex;
   gap: 50px;
+}
+
+.select-category .stats span {
+  padding: 0 5px;
 }
 
 .select-category .debuff {

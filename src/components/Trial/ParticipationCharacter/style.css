@@ -56,3 +56,38 @@
 .select-list ul li:hover {
   background: var(--color-gray01);
 }
+
+.select-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.select-stats .stats-counter {
+  width: 80px;
+}
+
+.select-condition {
+  display: flex;
+  gap: 12px;
+}
+
+.select-condition > div {
+  display: flex;
+  align-items: center;
+}
+
+.select-condition input {
+  width: 16px;
+  height: 16px;
+}
+
+.select-condition label {
+  padding-left: 8px;
+  font-size: 14px;
+}
+
+.select-equipment {
+  width: 180px;
+  font-size: 14px;
+  text-align: center;
+}
