@@ -79,11 +79,19 @@ export default function ParticipationCharacter() {
       {selectedCharacter && (
         <div className="select-condition">
           <div>
-            <input type="checkbox" id="weakness" />
+            <input
+              type="checkbox"
+              id="weakness"
+              checked={selectedCharacter.status === "weakness"}
+            />
             <label htmlFor="weakness">쇠약</label>
           </div>
           <div>
-            <input type="checkbox" id="infection" />
+            <input
+              type="checkbox"
+              id="infection"
+              checked={selectedCharacter.status === "infection"}
+            />
             <label htmlFor="infection">감염</label>
           </div>
         </div>
