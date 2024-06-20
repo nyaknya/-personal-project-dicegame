@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import "./style.css";
 import { CharactersContext } from "../../../context/CharactersContext";
 import useOutSideClick from "../../../hooks/useOutSideClick";
@@ -11,7 +11,16 @@ export default function ParticipationCharacter() {
     null
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isWeakness, setIsWeakness] = useState<boolean>(false);
+  const [isInfection, setIsInfection] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedCharacter) {
+      setIsWeakness(selectedCharacter.status === "weakness");
+      setIsInfection(selectedCharacter.status === "infection");
+    }
+  }, [selectedCharacter]);
 
   const handleCharacterClick = (character: Character) => {
     setSelectedCharacter(character);
@@ -26,6 +35,14 @@ export default function ParticipationCharacter() {
     ref,
     callback: () => setIsOpen(false),
   });
+
+  const handleWeaknessChange = () => {
+    setIsWeakness(!isWeakness);
+  };
+
+  const handleInfectionChange = () => {
+    setIsInfection(!isInfection);
+  };
 
   return (
     <div className="selected-character">
@@ -82,7 +99,8 @@ export default function ParticipationCharacter() {
             <input
               type="checkbox"
               id="weakness"
-              checked={selectedCharacter.status === "weakness"}
+              checked={isWeakness}
+              onChange={handleWeaknessChange}
             />
             <label htmlFor="weakness">쇠약</label>
           </div>
@@ -90,7 +108,8 @@ export default function ParticipationCharacter() {
             <input
               type="checkbox"
               id="infection"
-              checked={selectedCharacter.status === "infection"}
+              checked={isInfection}
+              onChange={handleInfectionChange}
             />
             <label htmlFor="infection">감염</label>
           </div>
