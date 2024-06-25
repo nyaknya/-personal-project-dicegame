@@ -91,3 +91,9 @@
   font-size: 14px;
   text-align: center;
 }
+
+.no-selection {
+  width: 100%;
+  font-size: 14px;
+  color: var(--color-gray04);
+}
