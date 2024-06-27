@@ -1,12 +1,23 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import "./style.css";
 import CharacterList from "./CharacterList";
 import ToggleButton from "../ToggleButton";
 import { CharactersContext } from "../../context/CharactersContext";
 
 export default function SideBar() {
-  const [isOpen, setIsOpen] = useState(true);
   const { characters } = useContext(CharactersContext);
+  const [isOpen, setIsOpen] = useState(true);
+
+  useEffect(() => {
+    const savedIsOpen = localStorage.getItem("sidebarIsOpen");
+    if (savedIsOpen !== null) {
+      setIsOpen(JSON.parse(savedIsOpen));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("sidebarIsOpen", JSON.stringify(isOpen));
+  }, [isOpen]);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
