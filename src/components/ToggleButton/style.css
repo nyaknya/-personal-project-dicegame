@@ -1,0 +1,5 @@
+.close-button {
+  cursor: pointer;
+  gap: 5px;
+  align-items: flex-start;
+}

@@ -39,46 +39,6 @@
   padding-right: 20px;
 }
 
-.close-button {
-  cursor: pointer;
-  gap: 5px;
-  align-items: flex-start;
-}
-
-.character-list-container.hidden {
-  opacity: 0;
-}
-
-.character-list-container.visible {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 0.3s 0.3s;
-}
-
-.character-list {
-  overflow-y: scroll;
-  padding-right: 20px;
-  height: 85vh;
-}
-
-.character-list::-webkit-scrollbar {
-  width: 8px;
-}
-
-.character-list::-webkit-scrollbar-button {
-  display: none;
-}
-
-.character-list::-webkit-scrollbar-track {
-  background: var(--color-gray02);
-  border-radius: 50px;
-}
-
-.character-list::-webkit-scrollbar-thumb {
-  background: var(--color-yellow);
-  border-radius: 50px;
-}
-
 .sidebar-wrap .category {
   display: grid;
   grid-template-columns: auto 36px 46px 24px 24px 24px 45px;
