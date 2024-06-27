@@ -1,23 +1,15 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import "./style.css";
 import CharacterList from "./CharacterList";
 import ToggleButton from "../ToggleButton";
 import { CharactersContext } from "../../context/CharactersContext";
+import useLocalStorage from "../../hooks/useLocalStorage";
+
+const SIDEBAR_STORAGE_KEY = "sidebarIsOpen";
 
 export default function SideBar() {
   const { characters } = useContext(CharactersContext);
-  const [isOpen, setIsOpen] = useState(true);
-
-  useEffect(() => {
-    const savedIsOpen = localStorage.getItem("sidebarIsOpen");
-    if (savedIsOpen !== null) {
-      setIsOpen(JSON.parse(savedIsOpen));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("sidebarIsOpen", JSON.stringify(isOpen));
-  }, [isOpen]);
+  const [isOpen, setIsOpen] = useLocalStorage(SIDEBAR_STORAGE_KEY, true);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);

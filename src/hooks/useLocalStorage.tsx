@@ -28,5 +28,5 @@ export default function useLocalStorage(key: string, initialValue: boolean) {
     setLocalStorage(key, value);
   };
 
-  return [storedValue, setValue];
+  return [storedValue, setValue] as const;
 }
