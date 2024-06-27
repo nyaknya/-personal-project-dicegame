@@ -5,7 +5,7 @@ import useOutSideClick from "../../../hooks/useOutSideClick";
 import { Character } from "../../../types";
 import StatsCounter from "../StatsCounter";
 
-export default function ParticipationCharacter() {
+export default function CurrentCharacter() {
   const { characters } = useContext(CharactersContext);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null

@@ -1,5 +1,5 @@
 import "./style.css";
-import ParticipationCharacter from "../ParticipationCharacter";
+import CurrentCharacter from "../CurrentCharacter";
 import usePeopleCounterStore from "../../../stores/usePeopleCounterStore";
 
 export default function SelectCharacter() {
@@ -20,7 +20,7 @@ export default function SelectCharacter() {
       </div>
       <div className="select-content">
         {Array.from({ length: count }, (_, index) => (
-          <ParticipationCharacter key={index} />
+          <CurrentCharacter key={index} />
         ))}
       </div>
     </div>
