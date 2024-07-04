@@ -1,15 +1,22 @@
 import "./style.css";
 import usePeopleCounterStore from "../../../stores/usePeopleCounterStore";
 
+const MIN_COUNT = 1;
+const MAX_COUNT = 24;
+
 export default function PeopleCounter() {
-  const count = usePeopleCounterStore((state) => state.count);
-  const increment = usePeopleCounterStore((state) => state.increment);
-  const decrement = usePeopleCounterStore((state) => state.decrement);
-  const setCount = usePeopleCounterStore((state) => state.setCount);
+  const { count, increment, decrement, setCount } = usePeopleCounterStore(
+    (state) => ({
+      count: state.count,
+      increment: state.increment,
+      decrement: state.decrement,
+      setCount: state.setCount,
+    })
+  );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
-    if (value >= 1 && value <= 24) {
+    if (value >= MIN_COUNT && value <= MAX_COUNT) {
       setCount(value);
     }
   };
@@ -24,8 +31,8 @@ export default function PeopleCounter() {
         <input
           className="counter-number"
           type="number"
-          min="1"
-          max="24"
+          min={MIN_COUNT}
+          max={MAX_COUNT}
           value={count}
           onChange={handleInputChange}
         />
