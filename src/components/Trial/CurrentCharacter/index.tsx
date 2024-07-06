@@ -7,6 +7,12 @@ import SelectBox from "./SelectBox";
 import SelectStats from "./SelectStats";
 import SelectCondition from "./SelectCondition";
 
+interface Stats {
+  aggressive: number;
+  creativity: number;
+  kindness: number;
+}
+
 export default function CurrentCharacter() {
   const { characters } = useContext(CharactersContext);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
@@ -15,12 +21,22 @@ export default function CurrentCharacter() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isWeakness, setIsWeakness] = useState<boolean>(false);
   const [isInfection, setIsInfection] = useState<boolean>(false);
+  const [stats, setStats] = useState<Stats>({
+    aggressive: 0,
+    creativity: 0,
+    kindness: 0,
+  });
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (selectedCharacter) {
       setIsWeakness(selectedCharacter.status === "weakness");
       setIsInfection(selectedCharacter.status === "infection");
+      setStats({
+        aggressive: selectedCharacter.aggressive,
+        creativity: selectedCharacter.creativity,
+        kindness: selectedCharacter.kindness,
+      });
     }
   }, [selectedCharacter]);
 
@@ -39,11 +55,39 @@ export default function CurrentCharacter() {
   });
 
   const handleWeaknessChange = () => {
-    setIsWeakness((prev) => !prev);
+    if (!isWeakness) {
+      setStats((prevStats) => ({
+        aggressive: prevStats.aggressive > 1 ? prevStats.aggressive - 1 : 1,
+        creativity: prevStats.creativity > 1 ? prevStats.creativity - 1 : 1,
+        kindness: prevStats.kindness > 1 ? prevStats.kindness - 1 : 1,
+      }));
+    }
+    setIsWeakness(true);
+    setIsInfection(false);
   };
 
   const handleInfectionChange = () => {
-    setIsInfection((prev) => !prev);
+    if (!isInfection) {
+      setStats({
+        aggressive: 1,
+        creativity: 1,
+        kindness: 0,
+      });
+    }
+    setIsInfection(true);
+    setIsWeakness(false);
+  };
+
+  const handleNormalChange = () => {
+    if (isWeakness || isInfection) {
+      setStats({
+        aggressive: selectedCharacter?.aggressive || 0,
+        creativity: selectedCharacter?.creativity || 0,
+        kindness: selectedCharacter?.kindness || 0,
+      });
+    }
+    setIsWeakness(false);
+    setIsInfection(false);
   };
 
   return (
@@ -77,12 +121,13 @@ export default function CurrentCharacter() {
       </div>
       {selectedCharacter ? (
         <>
-          <SelectStats character={selectedCharacter} />
+          <SelectStats character={selectedCharacter} stats={stats} />
           <SelectCondition
             isWeakness={isWeakness}
             isInfection={isInfection}
             onWeaknessChange={handleWeaknessChange}
             onInfectionChange={handleInfectionChange}
+            onNormalChange={handleNormalChange}
           />
           <div className="select-equipment">{selectedCharacter.equipment}</div>
         </>

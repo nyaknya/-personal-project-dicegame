@@ -68,6 +68,7 @@
 
 .select-condition {
   display: flex;
+  width: 170px;
   gap: 12px;
 }
 
@@ -82,8 +83,8 @@
 }
 
 .select-condition label {
-  padding-left: 8px;
-  font-size: 14px;
+  padding-left: 6px;
+  font-size: 12px;
 }
 
 .select-equipment {

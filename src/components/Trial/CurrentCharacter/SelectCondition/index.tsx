@@ -3,6 +3,7 @@ interface SelectConditionProps {
   isInfection: boolean;
   onWeaknessChange: () => void;
   onInfectionChange: () => void;
+  onNormalChange: () => void;
 }
 
 export default function SelectCondition({
@@ -10,13 +11,25 @@ export default function SelectCondition({
   isInfection,
   onWeaknessChange,
   onInfectionChange,
+  onNormalChange,
 }: SelectConditionProps) {
   return (
     <div className="select-condition">
       <div>
         <input
-          type="checkbox"
+          type="radio"
+          id="normal"
+          name="status"
+          checked={!isWeakness && !isInfection}
+          onChange={onNormalChange}
+        />
+        <label htmlFor="normal">정상</label>
+      </div>
+      <div>
+        <input
+          type="radio"
           id="weakness"
+          name="status"
           checked={isWeakness}
           onChange={onWeaknessChange}
         />
@@ -24,8 +37,9 @@ export default function SelectCondition({
       </div>
       <div>
         <input
-          type="checkbox"
+          type="radio"
           id="infection"
+          name="status"
           checked={isInfection}
           onChange={onInfectionChange}
         />
