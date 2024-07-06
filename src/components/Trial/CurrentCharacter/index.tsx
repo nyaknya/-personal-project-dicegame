@@ -39,11 +39,11 @@ export default function CurrentCharacter() {
   });
 
   const handleWeaknessChange = () => {
-    setIsWeakness(!isWeakness);
+    setIsWeakness((prev) => !prev);
   };
 
   const handleInfectionChange = () => {
-    setIsInfection(!isInfection);
+    setIsInfection((prev) => !prev);
   };
 
   return (
