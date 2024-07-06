@@ -6,6 +6,7 @@ import CharactersProvider from "./context/CharactersContext";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <CharactersProvider>

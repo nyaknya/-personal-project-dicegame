@@ -2,7 +2,7 @@ import "./style.css";
 import usePeopleCounterStore from "../../../stores/usePeopleCounterStore";
 
 const MIN_COUNT = 1;
-const MAX_COUNT = 24;
+const MAX_COUNT = 26;
 
 export default function PeopleCounter() {
   const { count, increment, decrement, setCount } = usePeopleCounterStore(

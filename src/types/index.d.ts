@@ -5,8 +5,10 @@ export enum Status {
 
 export interface Character {
   name: string;
-  hp: number;
-  mental: number;
+  max_hp: number;
+  current_hp: number;
+  max_mental: number;
+  current_mental: number;
   aggressive: number;
   creativity: number;
   kindness: number;

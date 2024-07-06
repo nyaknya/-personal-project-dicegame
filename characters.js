@@ -312,3 +312,5 @@ const characters = [
     equipment: null,
   },
 ];
+
+module.exports = characters;
