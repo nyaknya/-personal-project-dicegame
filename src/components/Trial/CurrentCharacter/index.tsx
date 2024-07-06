@@ -1,9 +1,11 @@
-import { useContext, useRef, useState, useEffect } from "react";
 import "./style.css";
+import { useContext, useRef, useState, useEffect } from "react";
 import { CharactersContext } from "../../../context/CharactersContext";
 import useOutSideClick from "../../../hooks/useOutSideClick";
 import { Character } from "../../../types";
-import StatsCounter from "../StatsCounter";
+import SelectBox from "./SelectBox";
+import SelectStats from "./SelectStats";
+import SelectCondition from "./SelectCondition";
 
 export default function CurrentCharacter() {
   const { characters } = useContext(CharactersContext);
@@ -46,9 +48,7 @@ export default function CurrentCharacter() {
 
   return (
     <div className="selected-character">
-      <div className="select-box">
-        <input type="checkbox" />
-      </div>
+      <SelectBox />
       <div className="select-list" ref={ref}>
         <div
           className={`now-selected ${selectedCharacter ? "" : "no-selection"}`}
@@ -76,47 +76,18 @@ export default function CurrentCharacter() {
         )}
       </div>
       {selectedCharacter ? (
-        <div className="select-stats">
-          <StatsCounter
-            key={`${selectedCharacter.name}-aggressive`}
-            initial={selectedCharacter.aggressive}
+        <>
+          <SelectStats character={selectedCharacter} />
+          <SelectCondition
+            isWeakness={isWeakness}
+            isInfection={isInfection}
+            onWeaknessChange={handleWeaknessChange}
+            onInfectionChange={handleInfectionChange}
           />
-          <StatsCounter
-            key={`${selectedCharacter.name}-creativity`}
-            initial={selectedCharacter.creativity}
-          />
-          <StatsCounter
-            key={`${selectedCharacter.name}-kindness`}
-            initial={selectedCharacter.kindness}
-          />
-        </div>
+          <div className="select-equipment">{selectedCharacter.equipment}</div>
+        </>
       ) : (
         <span className="no-selection">캐릭터를 선택해주세요.</span>
-      )}
-      {selectedCharacter && (
-        <div className="select-condition">
-          <div>
-            <input
-              type="checkbox"
-              id="weakness"
-              checked={isWeakness}
-              onChange={handleWeaknessChange}
-            />
-            <label htmlFor="weakness">쇠약</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="infection"
-              checked={isInfection}
-              onChange={handleInfectionChange}
-            />
-            <label htmlFor="infection">감염</label>
-          </div>
-        </div>
-      )}
-      {selectedCharacter && (
-        <div className="select-equipment">{selectedCharacter.equipment}</div>
       )}
     </div>
   );
