@@ -9,7 +9,7 @@ const characters = [
     creativity: 1,
     kindness: 3,
     status: null,
-    equipment: null,
+    equipment: "알루미늄 야구 배트, 알루미늄 야구 배트",
   },
   {
     name: "메리제인",

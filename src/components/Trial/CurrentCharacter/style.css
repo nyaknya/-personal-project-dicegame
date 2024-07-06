@@ -2,7 +2,7 @@
   padding: 7.5px 15px;
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 24px;
 }
 
 .select-box input {
@@ -63,7 +63,7 @@
 }
 
 .select-stats .stats-counter {
-  width: 80px;
+  width: 70px;
 }
 
 .select-condition {
@@ -82,15 +82,19 @@
   height: 16px;
 }
 
+.select-condition input[type="radio"] {
+  width: 14px;
+  height: 14px;
+}
+
 .select-condition label {
   padding-left: 6px;
   font-size: 12px;
 }
 
 .select-equipment {
-  width: 180px;
+  width: 108px;
   font-size: 14px;
-  text-align: center;
 }
 
 .no-selection {

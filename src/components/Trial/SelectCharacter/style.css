@@ -9,22 +9,24 @@
   align-items: center;
   padding: 15px;
   background: var(--color-gray02);
-  gap: 30px;
+  gap: 26px;
   font-size: 14px;
 }
 
 .select-category .name {
-  min-width: 202px;
+  min-width: 190px;
   text-align: left;
 }
 
 .select-category .stats {
-  min-width: 260px;
+  min-width: 255px;
   display: flex;
-  gap: 54px;
+  gap: 20px;
 }
 
 .select-category .stats span {
+  width: 70px;
+  text-align: center;
   padding: 0 5px;
 }
 
