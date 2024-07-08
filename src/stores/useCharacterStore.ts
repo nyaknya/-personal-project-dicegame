@@ -16,6 +16,9 @@ interface CharacterStore {
   characterStates: CharacterState[];
   initializeCharacterStates: (characterStates: CharacterState[]) => void;
   updateCharacterState: (index: number, updatedState: CharacterState) => void;
+  selectedCharacters: Set<string>;
+  addSelectedCharacter: (name: string) => void;
+  removeSelectedCharacter: (name: string) => void;
 }
 
 export const useCharacterStore = create<CharacterStore>((set) => ({
@@ -30,4 +33,17 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
       return { characterStates: newStates };
     });
   },
+  selectedCharacters: new Set(),
+  addSelectedCharacter: (name) =>
+    set((state) => {
+      const newSelectedCharacters = new Set(state.selectedCharacters);
+      newSelectedCharacters.add(name);
+      return { selectedCharacters: newSelectedCharacters };
+    }),
+  removeSelectedCharacter: (name) =>
+    set((state) => {
+      const newSelectedCharacters = new Set(state.selectedCharacters);
+      newSelectedCharacters.delete(name);
+      return { selectedCharacters: newSelectedCharacters };
+    }),
 }));

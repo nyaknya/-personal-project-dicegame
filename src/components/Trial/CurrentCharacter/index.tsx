@@ -20,6 +20,15 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   const updateCharacterState = useCharacterStore(
     (state) => state.updateCharacterState
   );
+  const addSelectedCharacter = useCharacterStore(
+    (state) => state.addSelectedCharacter
+  );
+  const removeSelectedCharacter = useCharacterStore(
+    (state) => state.removeSelectedCharacter
+  );
+  const selectedCharacters = useCharacterStore(
+    (state) => state.selectedCharacters
+  );
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -33,6 +42,9 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   };
 
   const handleCharacterClick = (character: Character) => {
+    if (characterState.character) {
+      removeSelectedCharacter(characterState.character.name);
+    }
     const updatedState = {
       character,
       isWeakness: character.status === "weakness",
@@ -44,6 +56,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
       },
     };
     updateCharacterState(index, updatedState);
+    addSelectedCharacter(character.name);
     setIsOpen(false);
   };
 
@@ -108,6 +121,10 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
     updateCharacterState(index, updatedState);
   };
 
+  const filteredCharacters = characters.filter(
+    (character) => !selectedCharacters.has(character.name)
+  );
+
   return (
     <div className="selected-character">
       <SelectBox />
@@ -129,7 +146,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
         </div>
         {isOpen && (
           <ul className="character-select">
-            {characters.map((character) => (
+            {filteredCharacters.map((character) => (
               <li
                 key={character.name}
                 className="character-option"
