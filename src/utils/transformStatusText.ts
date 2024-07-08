@@ -2,7 +2,7 @@ import { Status } from "../types";
 
 export default function transformStatusText(status: Status): string {
   switch (status) {
-    case "normal":
+    case null:
       return "정상";
     case "weakness":
       return "쇠약";
