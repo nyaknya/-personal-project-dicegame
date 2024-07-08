@@ -1,5 +1,5 @@
 import "./style.css";
-import { useContext, useRef, useState, useEffect } from "react";
+import { useContext, useRef, useEffect, useState } from "react";
 import { CharactersContext } from "../../../context/CharactersContext";
 import useOutSideClick from "../../../hooks/useOutSideClick";
 import { Character } from "../../../types";
@@ -13,35 +13,55 @@ interface Stats {
   kindness: number;
 }
 
-export default function CurrentCharacter() {
+interface CharacterState {
+  character: Character | null;
+  isWeakness: boolean;
+  isInfection: boolean;
+  stats: Stats;
+}
+
+interface CurrentCharacterProps {
+  index: number;
+  characterState: CharacterState;
+  onCharacterChange: (index: number, updatedState: CharacterState) => void;
+}
+
+const CurrentCharacter: React.FC<CurrentCharacterProps> = ({
+  index,
+  characterState,
+  onCharacterChange,
+}) => {
   const { characters } = useContext(CharactersContext);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    null
-  );
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isWeakness, setIsWeakness] = useState<boolean>(false);
-  const [isInfection, setIsInfection] = useState<boolean>(false);
-  const [stats, setStats] = useState<Stats>({
-    aggressive: 0,
-    creativity: 0,
-    kindness: 0,
-  });
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (selectedCharacter) {
-      setIsWeakness(selectedCharacter.status === "weakness");
-      setIsInfection(selectedCharacter.status === "infection");
-      setStats({
-        aggressive: selectedCharacter.aggressive,
-        creativity: selectedCharacter.creativity,
-        kindness: selectedCharacter.kindness,
+    if (characterState.character) {
+      onCharacterChange(index, {
+        ...characterState,
+        isWeakness: characterState.character.status === "weakness",
+        isInfection: characterState.character.status === "infection",
+        stats: {
+          aggressive: characterState.character.aggressive,
+          creativity: characterState.character.creativity,
+          kindness: characterState.character.kindness,
+        },
       });
     }
-  }, [selectedCharacter]);
+  }, [characterState.character]);
 
   const handleCharacterClick = (character: Character) => {
-    setSelectedCharacter(character);
+    const updatedState = {
+      character,
+      isWeakness: character.status === "weakness",
+      isInfection: character.status === "infection",
+      stats: {
+        aggressive: character.aggressive,
+        creativity: character.creativity,
+        kindness: character.kindness,
+      },
+    };
+    onCharacterChange(index, updatedState);
     setIsOpen(false);
   };
 
@@ -55,39 +75,64 @@ export default function CurrentCharacter() {
   });
 
   const handleWeaknessChange = () => {
-    if (!isWeakness) {
-      setStats((prevStats) => ({
-        aggressive: prevStats.aggressive > 1 ? prevStats.aggressive - 1 : 1,
-        creativity: prevStats.creativity > 1 ? prevStats.creativity - 1 : 1,
-        kindness: prevStats.kindness > 1 ? prevStats.kindness - 1 : 1,
-      }));
+    const updatedState = { ...characterState };
+    if (!updatedState.isWeakness) {
+      updatedState.stats = {
+        aggressive:
+          updatedState.stats.aggressive > 1
+            ? updatedState.stats.aggressive - 1
+            : 1,
+        creativity:
+          updatedState.stats.creativity > 1
+            ? updatedState.stats.creativity - 1
+            : 1,
+        kindness:
+          updatedState.stats.kindness > 1 ? updatedState.stats.kindness - 1 : 1,
+      };
+    } else {
+      updatedState.stats = {
+        aggressive: updatedState.character?.aggressive || 0,
+        creativity: updatedState.character?.creativity || 0,
+        kindness: updatedState.character?.kindness || 0,
+      };
     }
-    setIsWeakness(true);
-    setIsInfection(false);
+    updatedState.isWeakness = !updatedState.isWeakness;
+    if (updatedState.isInfection) updatedState.isInfection = false;
+    onCharacterChange(index, updatedState);
   };
 
   const handleInfectionChange = () => {
-    if (!isInfection) {
-      setStats({
+    const updatedState = { ...characterState };
+    if (!updatedState.isInfection) {
+      updatedState.stats = {
         aggressive: 1,
         creativity: 1,
         kindness: 0,
-      });
+      };
+    } else {
+      updatedState.stats = {
+        aggressive: updatedState.character?.aggressive || 0,
+        creativity: updatedState.character?.creativity || 0,
+        kindness: updatedState.character?.kindness || 0,
+      };
     }
-    setIsInfection(true);
-    setIsWeakness(false);
+    updatedState.isInfection = !updatedState.isInfection;
+    if (updatedState.isWeakness) updatedState.isWeakness = false;
+    onCharacterChange(index, updatedState);
   };
 
   const handleNormalChange = () => {
-    if (isWeakness || isInfection) {
-      setStats({
-        aggressive: selectedCharacter?.aggressive || 0,
-        creativity: selectedCharacter?.creativity || 0,
-        kindness: selectedCharacter?.kindness || 0,
-      });
+    const updatedState = { ...characterState };
+    updatedState.isWeakness = false;
+    updatedState.isInfection = false;
+    if (updatedState.character) {
+      updatedState.stats = {
+        aggressive: updatedState.character.aggressive,
+        creativity: updatedState.character.creativity,
+        kindness: updatedState.character.kindness,
+      };
     }
-    setIsWeakness(false);
-    setIsInfection(false);
+    onCharacterChange(index, updatedState);
   };
 
   return (
@@ -95,10 +140,14 @@ export default function CurrentCharacter() {
       <SelectBox />
       <div className="select-list" ref={ref}>
         <div
-          className={`now-selected ${selectedCharacter ? "" : "no-selection"}`}
+          className={`now-selected ${
+            characterState.character ? "" : "no-selection"
+          }`}
           onClick={toggleOpenClose}
         >
-          {selectedCharacter ? selectedCharacter.name : "캐릭터를 선택하세요."}
+          {characterState.character
+            ? characterState.character.name
+            : "캐릭터를 선택하세요."}
           {isOpen ? (
             <img src="/images/up.svg" alt="위 화살표" />
           ) : (
@@ -119,21 +168,28 @@ export default function CurrentCharacter() {
           </ul>
         )}
       </div>
-      {selectedCharacter ? (
+      {characterState.character ? (
         <>
-          <SelectStats character={selectedCharacter} stats={stats} />
+          <SelectStats
+            character={characterState.character}
+            stats={characterState.stats}
+          />
           <SelectCondition
-            isWeakness={isWeakness}
-            isInfection={isInfection}
+            isWeakness={characterState.isWeakness}
+            isInfection={characterState.isInfection}
             onWeaknessChange={handleWeaknessChange}
             onInfectionChange={handleInfectionChange}
             onNormalChange={handleNormalChange}
           />
-          <div className="select-equipment">{selectedCharacter.equipment}</div>
+          <div className="select-equipment">
+            {characterState.character.equipment}
+          </div>
         </>
       ) : (
         <span className="no-selection">캐릭터를 선택해주세요.</span>
       )}
     </div>
   );
-}
+};
+
+export default CurrentCharacter;
