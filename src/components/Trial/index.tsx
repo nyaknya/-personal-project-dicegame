@@ -3,9 +3,11 @@ import PeopleCounter from "./PeopleCounter";
 import SelectCharacter from "./SelectCharacter";
 import usePeopleCounterStore from "../../stores/usePeopleCounterStore";
 import TrialCaption from "./TrialCaption";
+import { useCharacterStore } from "../../stores/useCharacterStore";
 
 export default function Trial() {
   const count = usePeopleCounterStore((state) => state.count);
+  const totalStats = useCharacterStore((state) => state.totalStats);
 
   return (
     <div className="trial-wrapper">
@@ -16,9 +18,9 @@ export default function Trial() {
         </div>
         <TrialCaption
           count={count}
-          aggressive={0}
-          creativity={0}
-          kindness={0}
+          aggressive={totalStats.aggressive}
+          creativity={totalStats.creativity}
+          kindness={totalStats.kindness}
         />
       </div>
       <SelectCharacter />

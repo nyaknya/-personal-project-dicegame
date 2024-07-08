@@ -1,15 +1,17 @@
 import create from "zustand";
 import { Character } from "../types";
 
+interface Stats {
+  aggressive: number;
+  creativity: number;
+  kindness: number;
+}
+
 interface CharacterState {
   character: Character | null;
   isWeakness: boolean;
   isInfection: boolean;
-  stats: {
-    aggressive: number;
-    creativity: number;
-    kindness: number;
-  };
+  stats: Stats;
 }
 
 interface CharacterStore {
@@ -19,9 +21,10 @@ interface CharacterStore {
   selectedCharacters: Set<string>;
   addSelectedCharacter: (name: string) => void;
   removeSelectedCharacter: (name: string) => void;
+  totalStats: Stats;
 }
 
-export const useCharacterStore = create<CharacterStore>((set) => ({
+export const useCharacterStore = create<CharacterStore>((set, get) => ({
   characterStates: [],
   initializeCharacterStates: (characterStates) => {
     set({ characterStates });
@@ -30,7 +33,18 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
     set((state) => {
       const newStates = [...state.characterStates];
       newStates[index] = updatedState;
-      return { characterStates: newStates };
+      const totalStats = newStates.reduce(
+        (totals, state) => {
+          if (state.character) {
+            totals.aggressive += state.stats.aggressive;
+            totals.creativity += state.stats.creativity;
+            totals.kindness += state.stats.kindness;
+          }
+          return totals;
+        },
+        { aggressive: 0, creativity: 0, kindness: 0 }
+      );
+      return { characterStates: newStates, totalStats };
     });
   },
   selectedCharacters: new Set(),
@@ -46,4 +60,5 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
       newSelectedCharacters.delete(name);
       return { selectedCharacters: newSelectedCharacters };
     }),
+  totalStats: { aggressive: 0, creativity: 0, kindness: 0 },
 }));
