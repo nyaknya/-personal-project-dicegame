@@ -1,54 +1,36 @@
 import "./style.css";
-import { useContext, useRef, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CharactersContext } from "../../../context/CharactersContext";
 import useOutSideClick from "../../../hooks/useOutSideClick";
 import { Character } from "../../../types";
 import SelectBox from "./SelectBox";
 import SelectStats from "./SelectStats";
 import SelectCondition from "./SelectCondition";
-
-interface Stats {
-  aggressive: number;
-  creativity: number;
-  kindness: number;
-}
-
-interface CharacterState {
-  character: Character | null;
-  isWeakness: boolean;
-  isInfection: boolean;
-  stats: Stats;
-}
+import { useCharacterStore } from "../../../stores/useCharacterStore";
 
 interface CurrentCharacterProps {
   index: number;
-  characterState: CharacterState;
-  onCharacterChange: (index: number, updatedState: CharacterState) => void;
 }
 
-const CurrentCharacter: React.FC<CurrentCharacterProps> = ({
-  index,
-  characterState,
-  onCharacterChange,
-}) => {
+const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   const { characters } = useContext(CharactersContext);
+  const characterState = useCharacterStore(
+    (state) => state.characterStates[index]
+  );
+  const updateCharacterState = useCharacterStore(
+    (state) => state.updateCharacterState
+  );
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (characterState.character) {
-      onCharacterChange(index, {
-        ...characterState,
-        isWeakness: characterState.character.status === "weakness",
-        isInfection: characterState.character.status === "infection",
-        stats: {
-          aggressive: characterState.character.aggressive,
-          creativity: characterState.character.creativity,
-          kindness: characterState.character.kindness,
-        },
-      });
-    }
-  }, [characterState.character]);
+  useOutSideClick({
+    ref,
+    callback: () => setIsOpen(false),
+  });
+
+  const toggleOpenClose = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleCharacterClick = (character: Character) => {
     const updatedState = {
@@ -61,18 +43,9 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({
         kindness: character.kindness,
       },
     };
-    onCharacterChange(index, updatedState);
+    updateCharacterState(index, updatedState);
     setIsOpen(false);
   };
-
-  const toggleOpenClose = () => {
-    setIsOpen(!isOpen);
-  };
-
-  useOutSideClick({
-    ref,
-    callback: () => setIsOpen(false),
-  });
 
   const handleWeaknessChange = () => {
     const updatedState = { ...characterState };
@@ -98,7 +71,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({
     }
     updatedState.isWeakness = !updatedState.isWeakness;
     if (updatedState.isInfection) updatedState.isInfection = false;
-    onCharacterChange(index, updatedState);
+    updateCharacterState(index, updatedState);
   };
 
   const handleInfectionChange = () => {
@@ -118,7 +91,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({
     }
     updatedState.isInfection = !updatedState.isInfection;
     if (updatedState.isWeakness) updatedState.isWeakness = false;
-    onCharacterChange(index, updatedState);
+    updateCharacterState(index, updatedState);
   };
 
   const handleNormalChange = () => {
@@ -132,7 +105,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({
         kindness: updatedState.character.kindness,
       };
     }
-    onCharacterChange(index, updatedState);
+    updateCharacterState(index, updatedState);
   };
 
   return (
@@ -168,7 +141,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({
           </ul>
         )}
       </div>
-      {characterState.character ? (
+      {characterState.character && (
         <>
           <SelectStats
             character={characterState.character}
@@ -185,8 +158,6 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({
             {characterState.character.equipment}
           </div>
         </>
-      ) : (
-        <span className="no-selection">캐릭터를 선택해주세요.</span>
       )}
     </div>
   );
