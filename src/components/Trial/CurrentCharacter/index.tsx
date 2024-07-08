@@ -20,6 +20,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   const updateCharacterState = useCharacterStore(
     (state) => state.updateCharacterState
   );
+  const characterStates = useCharacterStore((state) => state.characterStates);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -108,6 +109,15 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
     updateCharacterState(index, updatedState);
   };
 
+  const getAvailableCharacters = () => {
+    const selectedCharacters = characterStates
+      .filter((state) => state.character)
+      .map((state) => state.character?.name);
+    return characters.filter(
+      (character) => !selectedCharacters.includes(character.name)
+    );
+  };
+
   return (
     <div className="selected-character">
       <SelectBox />
@@ -129,7 +139,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
         </div>
         {isOpen && (
           <ul className="character-select">
-            {characters.map((character) => (
+            {getAvailableCharacters().map((character) => (
               <li
                 key={character.name}
                 className="character-option"
