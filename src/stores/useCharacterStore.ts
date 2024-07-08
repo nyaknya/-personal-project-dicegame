@@ -24,7 +24,7 @@ interface CharacterStore {
   totalStats: Stats;
 }
 
-export const useCharacterStore = create<CharacterStore>((set, get) => ({
+export const useCharacterStore = create<CharacterStore>((set) => ({
   characterStates: [],
   initializeCharacterStates: (characterStates) => {
     set({ characterStates });
