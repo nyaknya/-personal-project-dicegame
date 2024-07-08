@@ -1,4 +1,5 @@
 interface SelectConditionProps {
+  characterName: string;
   isWeakness: boolean;
   isInfection: boolean;
   onWeaknessChange: () => void;
@@ -7,6 +8,7 @@ interface SelectConditionProps {
 }
 
 export default function SelectCondition({
+  characterName,
   isWeakness,
   isInfection,
   onWeaknessChange,
@@ -18,32 +20,32 @@ export default function SelectCondition({
       <div>
         <input
           type="radio"
-          id="normal"
-          name="status"
+          id={`${characterName}-normal`}
+          name={`${characterName}-status`}
           checked={!isWeakness && !isInfection}
           onChange={onNormalChange}
         />
-        <label htmlFor="normal">정상</label>
+        <label htmlFor={`${characterName}-normal`}>정상</label>
       </div>
       <div>
         <input
           type="radio"
-          id="weakness"
-          name="status"
+          id={`${characterName}-weakness`}
+          name={`${characterName}-status`}
           checked={isWeakness}
           onChange={onWeaknessChange}
         />
-        <label htmlFor="weakness">쇠약</label>
+        <label htmlFor={`${characterName}-weakness`}>쇠약</label>
       </div>
       <div>
         <input
           type="radio"
-          id="infection"
-          name="status"
+          id={`${characterName}-infection`}
+          name={`${characterName}-status`}
           checked={isInfection}
           onChange={onInfectionChange}
         />
-        <label htmlFor="infection">감염</label>
+        <label htmlFor={`${characterName}-infection`}>감염</label>
       </div>
     </div>
   );

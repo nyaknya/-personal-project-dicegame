@@ -148,6 +148,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
             stats={characterState.stats}
           />
           <SelectCondition
+            characterName={characterState.character.name}
             isWeakness={characterState.isWeakness}
             isInfection={characterState.isInfection}
             onWeaknessChange={handleWeaknessChange}
