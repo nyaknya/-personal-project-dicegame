@@ -49,6 +49,12 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
 
   const handleWeaknessChange = () => {
     const updatedState = { ...characterState };
+    updatedState.stats = {
+      aggressive: characterState.character?.aggressive ?? 0,
+      creativity: characterState.character?.creativity ?? 0,
+      kindness: characterState.character?.kindness ?? 0,
+    };
+
     if (!updatedState.isWeakness) {
       updatedState.stats = {
         aggressive:
@@ -61,12 +67,6 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
             : 1,
         kindness:
           updatedState.stats.kindness > 0 ? updatedState.stats.kindness - 1 : 0,
-      };
-    } else {
-      updatedState.stats = {
-        aggressive: updatedState.character?.aggressive || 0,
-        creativity: updatedState.character?.creativity || 0,
-        kindness: updatedState.character?.kindness || 0,
       };
     }
     updatedState.isWeakness = !updatedState.isWeakness;
