@@ -20,15 +20,6 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   const updateCharacterState = useCharacterStore(
     (state) => state.updateCharacterState
   );
-  const addSelectedCharacter = useCharacterStore(
-    (state) => state.addSelectedCharacter
-  );
-  const removeSelectedCharacter = useCharacterStore(
-    (state) => state.removeSelectedCharacter
-  );
-  const selectedCharacters = useCharacterStore(
-    (state) => state.selectedCharacters
-  );
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -42,9 +33,6 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   };
 
   const handleCharacterClick = (character: Character) => {
-    if (characterState.character) {
-      removeSelectedCharacter(characterState.character.name);
-    }
     const updatedState = {
       character,
       isWeakness: character.status === "weakness",
@@ -56,12 +44,17 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
       },
     };
     updateCharacterState(index, updatedState);
-    addSelectedCharacter(character.name);
     setIsOpen(false);
   };
 
   const handleWeaknessChange = () => {
     const updatedState = { ...characterState };
+    updatedState.stats = {
+      aggressive: characterState.character?.aggressive ?? 0,
+      creativity: characterState.character?.creativity ?? 0,
+      kindness: characterState.character?.kindness ?? 0,
+    };
+
     if (!updatedState.isWeakness) {
       updatedState.stats = {
         aggressive:
@@ -73,13 +66,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
             ? updatedState.stats.creativity - 1
             : 1,
         kindness:
-          updatedState.stats.kindness > 1 ? updatedState.stats.kindness - 1 : 1,
-      };
-    } else {
-      updatedState.stats = {
-        aggressive: updatedState.character?.aggressive || 0,
-        creativity: updatedState.character?.creativity || 0,
-        kindness: updatedState.character?.kindness || 0,
+          updatedState.stats.kindness > 0 ? updatedState.stats.kindness - 1 : 0,
       };
     }
     updatedState.isWeakness = !updatedState.isWeakness;
@@ -121,10 +108,6 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
     updateCharacterState(index, updatedState);
   };
 
-  const filteredCharacters = characters.filter(
-    (character) => !selectedCharacters.has(character.name)
-  );
-
   return (
     <div className="selected-character">
       <SelectBox />
@@ -146,7 +129,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
         </div>
         {isOpen && (
           <ul className="character-select">
-            {filteredCharacters.map((character) => (
+            {characters.map((character) => (
               <li
                 key={character.name}
                 className="character-option"
