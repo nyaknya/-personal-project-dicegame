@@ -1,6 +1,9 @@
-export enum Status {
-  Weakness = "weakness",
-  Infection = "infection",
+export type Status = "normal" | "weakness" | "infection" | null;
+
+export interface Stats {
+  aggressive: number;
+  creativity: number;
+  kindness: number;
 }
 
 export interface Character {
@@ -12,6 +15,14 @@ export interface Character {
   aggressive: number;
   creativity: number;
   kindness: number;
-  status: Status | null;
+  status: Status;
   equipment: string | null;
+}
+
+export interface CharacterState {
+  character: Character | null;
+  isWeakness: boolean;
+  isInfection: boolean;
+  stats: Stats;
+  originalStats: Stats;
 }

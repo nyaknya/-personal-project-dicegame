@@ -26,6 +26,11 @@ export default function SelectCharacter() {
             creativity: 0,
             kindness: 0,
           },
+          originalStats: {
+            aggressive: 0,
+            creativity: 0,
+            kindness: 0,
+          },
         })
       );
       initializeCharacterStates([...characterStates, ...additionalCharacters]);

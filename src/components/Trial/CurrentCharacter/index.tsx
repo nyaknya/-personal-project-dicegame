@@ -1,8 +1,8 @@
 import "./style.css";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { CharactersContext } from "../../../context/CharactersContext";
 import useOutSideClick from "../../../hooks/useOutSideClick";
-import { Character } from "../../../types";
+import { Character, CharacterState } from "../../../types"; // CharacterState 가져오기
 import SelectBox from "./SelectBox";
 import SelectStats from "./SelectStats";
 import SelectCondition from "./SelectCondition";
@@ -34,41 +34,57 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   };
 
   const handleCharacterClick = (character: Character) => {
-    const updatedState = {
+    const updatedState: CharacterState = {
       character,
       isWeakness: character.status === "weakness",
       isInfection: character.status === "infection",
+      originalStats: {
+        aggressive: character.aggressive,
+        creativity: character.creativity,
+        kindness: character.kindness,
+      },
       stats: {
         aggressive: character.aggressive,
         creativity: character.creativity,
         kindness: character.kindness,
       },
     };
+    if (character.status === "weakness") {
+      updatedState.stats = {
+        aggressive: character.aggressive > 1 ? character.aggressive - 1 : 1,
+        creativity: character.creativity > 1 ? character.creativity - 1 : 1,
+        kindness: character.kindness > 0 ? character.kindness - 1 : 0,
+      };
+    } else if (character.status === "infection") {
+      updatedState.stats = {
+        aggressive: 1,
+        creativity: 1,
+        kindness: 0,
+      };
+    }
     updateCharacterState(index, updatedState);
     setIsOpen(false);
   };
 
   const handleWeaknessChange = () => {
     const updatedState = { ...characterState };
-    updatedState.stats = {
-      aggressive: characterState.character?.aggressive ?? 0,
-      creativity: characterState.character?.creativity ?? 0,
-      kindness: characterState.character?.kindness ?? 0,
-    };
-
     if (!updatedState.isWeakness) {
       updatedState.stats = {
         aggressive:
-          updatedState.stats.aggressive > 1
-            ? updatedState.stats.aggressive - 1
+          updatedState.originalStats.aggressive > 1
+            ? updatedState.originalStats.aggressive - 1
             : 1,
         creativity:
-          updatedState.stats.creativity > 1
-            ? updatedState.stats.creativity - 1
+          updatedState.originalStats.creativity > 1
+            ? updatedState.originalStats.creativity - 1
             : 1,
         kindness:
-          updatedState.stats.kindness > 0 ? updatedState.stats.kindness - 1 : 0,
+          updatedState.originalStats.kindness > 0
+            ? updatedState.originalStats.kindness - 1
+            : 0,
       };
+    } else {
+      updatedState.stats = { ...updatedState.originalStats };
     }
     updatedState.isWeakness = !updatedState.isWeakness;
     if (updatedState.isInfection) updatedState.isInfection = false;
@@ -84,11 +100,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
         kindness: 0,
       };
     } else {
-      updatedState.stats = {
-        aggressive: updatedState.character?.aggressive || 0,
-        creativity: updatedState.character?.creativity || 0,
-        kindness: updatedState.character?.kindness || 0,
-      };
+      updatedState.stats = { ...updatedState.originalStats };
     }
     updatedState.isInfection = !updatedState.isInfection;
     if (updatedState.isWeakness) updatedState.isWeakness = false;
@@ -99,13 +111,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
     const updatedState = { ...characterState };
     updatedState.isWeakness = false;
     updatedState.isInfection = false;
-    if (updatedState.character) {
-      updatedState.stats = {
-        aggressive: updatedState.character.aggressive,
-        creativity: updatedState.character.creativity,
-        kindness: updatedState.character.kindness,
-      };
-    }
+    updatedState.stats = { ...updatedState.originalStats };
     updateCharacterState(index, updatedState);
   };
 

@@ -20,7 +20,7 @@ const characters = [
     aggressive: 5,
     creativity: 2,
     kindness: 1,
-    status: null,
+    status: "weakness",
     equipment: null,
   },
   {
@@ -32,7 +32,7 @@ const characters = [
     aggressive: 2,
     creativity: 5,
     kindness: 1,
-    status: null,
+    status: "infection",
     equipment: null,
   },
   {
