@@ -1,7 +1,7 @@
 import "./style.css";
 import CurrentCharacter from "../CurrentCharacter";
 import usePeopleCounterStore from "../../../stores/usePeopleCounterStore";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { useCharacterStore } from "../../../stores/useCharacterStore";
 import { CharactersContext } from "../../../context/CharactersContext";
 import { CharacterState } from "../../../types";
@@ -12,7 +12,11 @@ export default function SelectCharacter() {
     (state) => state.initializeCharacterStates
   );
   const characterStates = useCharacterStore((state) => state.characterStates);
+  const toggleAllSelections = useCharacterStore(
+    (state) => state.toggleAllSelections
+  );
   const { characters } = useContext(CharactersContext);
+  const [selectAll, setSelectAll] = useState(false);
 
   useEffect(() => {
     if (characterStates.length < count) {
@@ -32,16 +36,26 @@ export default function SelectCharacter() {
             creativity: 0,
             kindness: 0,
           },
-          isSelected: false, // 추가된 속성
+          isSelected: false,
         })
       );
       initializeCharacterStates([...characterStates, ...additionalCharacters]);
     }
   }, [characters, count, initializeCharacterStates, characterStates]);
 
+  const handleSelectAllChange = () => {
+    setSelectAll(!selectAll);
+    toggleAllSelections(!selectAll);
+  };
+
   return (
     <div className="trial-select">
       <div className="select-category">
+        <input
+          type="checkbox"
+          checked={selectAll}
+          onChange={handleSelectAllChange}
+        />
         <span className="name">캐릭터 이름</span>
         <div className="stats">
           <span>호전성</span>

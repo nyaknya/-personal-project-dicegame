@@ -1,5 +1,5 @@
 import create from "zustand";
-import { CharacterState, Stats } from "../types";
+import { CharacterState, Stats } from "../types"; // CharacterState 가져오기
 
 interface CharacterStore {
   characterStates: CharacterState[];
@@ -7,6 +7,7 @@ interface CharacterStore {
   initializeCharacterStates: (states: CharacterState[]) => void;
   updateCharacterState: (index: number, state: CharacterState) => void;
   toggleCharacterSelection: (index: number) => void;
+  toggleAllSelections: (isSelected: boolean) => void; // 추가된 액션
 }
 
 const useCharacterStore = create<CharacterStore>((set) => ({
@@ -33,6 +34,14 @@ const useCharacterStore = create<CharacterStore>((set) => ({
       const currentState = updatedStates[index];
       currentState.isSelected = !currentState.isSelected;
       updatedStates[index] = currentState;
+      return { characterStates: updatedStates };
+    }),
+  toggleAllSelections: (isSelected) =>
+    set((state) => {
+      const updatedStates = state.characterStates.map((characterState) => ({
+        ...characterState,
+        isSelected,
+      }));
       return { characterStates: updatedStates };
     }),
 }));
