@@ -6,3 +6,9 @@
 .dicepage-content {
   padding: 50px 35px;
 }
+
+.addition-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}

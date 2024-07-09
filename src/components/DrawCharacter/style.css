@@ -1,0 +1,74 @@
+.drawcharacter-wrapper {
+  padding-top: 50px;
+}
+
+.drawcharacter-wrapper h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.drawcharacter-wrapper span {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.drawcharacter-caption {
+  display: block;
+  padding-bottom: 5px;
+}
+
+.drawcharacter-wrapper form {
+  display: flex;
+  gap: 10px;
+}
+
+.drawcharacter-wrapper .input-box {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.drawcharacter-wrapper input {
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 150px;
+  height: 38px;
+}
+
+.drawcharacter-wrapper button {
+  width: 97px;
+  height: 38px;
+  background: var(--color-black);
+  color: var(--color-white);
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+
+.drawcharacter-wrapper button:hover {
+  background: var(--color-yellow);
+}
+
+.drawcharacter-result {
+  background: var(--color-gray01);
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.drawcharacter-result h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.drawcharacter-result p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.drawcharacter-result p:last-child {
+  margin-bottom: 0;
+}

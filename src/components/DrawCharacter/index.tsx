@@ -7,6 +7,7 @@ export default function DrawCharacter() {
         캐릭터 뽑기 <span>※ 왼쪽 체크 인원을 기준</span>
       </h2>
       <div>
+        <span className="drawcharacter-caption">선정 인원</span>
         <form>
           <div className="input-box">
             <input type="number" min="1" />
