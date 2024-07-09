@@ -35,7 +35,7 @@ export default function TrialResult() {
     const currentStat = calculateCurrentStat();
     let isSuccess = false;
     let resultMessage = "";
-    let failureResult = "";
+    let copyMessage = "";
 
     if (currentStat >= requiredValue) {
       setDifficulty("안전");
@@ -78,12 +78,21 @@ export default function TrialResult() {
           if (infectionRoll < 0.4) {
             resultMessage += `${participant.character.name}가 긁힘을 당했습니다.\n`;
             copyMessage += `${participant.character.name} -${injuryHP} (긁힘)\n`;
+            const infectionSuccess = Math.random() < 0.3; // 감염 판정
+            if (infectionSuccess) {
+              resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
+            }
           } else if (infectionRoll < 0.4 + 0.6) {
             resultMessage += `${participant.character.name}가 찢김을 당했습니다.\n`;
             copyMessage += `${participant.character.name} -${injuryHP} (찢김)\n`;
+            const infectionSuccess = Math.random() < 0.6; // 감염 판정
+            if (infectionSuccess) {
+              resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
+            }
           } else {
             resultMessage += `${participant.character.name}가 물림을 당했습니다.\n`;
             copyMessage += `${participant.character.name} -${injuryHP} (물림)\n`;
+            resultMessage += `${participant.character.name}가 감염되었습니다.\n`; // 100% 감염
           }
         } else {
           participant.character.current_hp -= injuryHP;
@@ -94,7 +103,6 @@ export default function TrialResult() {
     });
 
     setCopyResult(copyMessage);
-
     return resultMessage;
   };
 

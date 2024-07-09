@@ -20,7 +20,6 @@ export default function TrialResultMessage({
     <div className="trial-result-message-container">
       <div className="result-section">
         <h2>판정 결과</h2>
-
         <div className="result-content">
           {detailedResult.split("\n").map((line, index) => (
             <p key={index}>{line}</p>
@@ -31,11 +30,10 @@ export default function TrialResultMessage({
         <div className="copy-title">
           <h2>복사용</h2>
           <button className="copy-button" onClick={handleCopy}>
-            <img src="/images/copy.svg" alt="" />
+            <img src="/images/copy.svg" alt="복사" />
             복사하기
           </button>
         </div>
-
         <div className="result-content">
           {copyResult.split("\n").map((line, index) => (
             <p key={index}>{line}</p>
