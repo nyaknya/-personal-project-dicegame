@@ -68,3 +68,7 @@
 .drawcharacter-result p:last-child {
   margin-bottom: 0;
 }
+
+.drawcharacter-result ul li {
+  font-size: 14px;
+}

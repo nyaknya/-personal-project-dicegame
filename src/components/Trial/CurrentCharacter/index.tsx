@@ -133,7 +133,11 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   };
 
   return (
-    <div className="selected-character">
+    <div
+      className={`selected-character ${
+        characterState.isSelected ? "checked" : ""
+      }`}
+    >
       <SelectBox
         checked={characterState.isSelected}
         onChange={handleCheckboxChange}
