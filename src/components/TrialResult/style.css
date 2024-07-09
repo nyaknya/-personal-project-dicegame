@@ -18,6 +18,7 @@
   margin-top: 5px;
   display: flex;
   gap: 10px;
+  font-size: 14px;
 }
 
 .attack-type label input {
@@ -36,8 +37,39 @@
 .stats-table td {
   padding: 8px 10px;
   text-align: center;
+  font-size: 14px;
 }
 
 .stats-table th {
   background-color: #f2f2f2;
+}
+
+.judge-type h2,
+.judge-section h2 {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.judge-section {
+  display: flex;
+  gap: 10px;
+}
+
+.judge-section input {
+  width: 70px;
+  padding: 8px;
+  text-align: center;
+  border: 1px solid var(--color-gray03);
+  border-radius: 8px;
+}
+
+.judge-section button {
+  color: var(--color-white);
+  background: var(--color-black);
+  border: none;
+  transition: 0.3s all;
+  border-radius: 8px;
+  margin-top: 18px;
+  width: 100px;
+  height: 46px;
 }
