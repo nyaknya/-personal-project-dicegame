@@ -1,3 +1,64 @@
 .normaldice-wrapper {
   padding-top: 50px;
 }
+
+.normaldice-wrapper h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.normaldice-wrapper form {
+  display: flex;
+  gap: 10px;
+}
+
+.normaldice-wrapper .input-box {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.normaldice-wrapper input {
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 48px;
+  height: 38px;
+}
+
+.normaldice-wrapper button {
+  width: 97px;
+  height: 38px;
+  background: var(--color-black);
+  color: var(--color-white);
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+
+.normaldice-wrapper button:hover {
+  background: var(--color-yellow);
+}
+
+.normaldice-result {
+  background: var(--color-gray01);
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.normaldice-result h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.normaldice-result p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.normaldice-result p:last-child {
+  margin-bottom: 0;
+}
