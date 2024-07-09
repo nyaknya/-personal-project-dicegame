@@ -19,10 +19,19 @@ export default function DrawCharacter() {
     }
 
     const draws = [];
-    for (let i = 0; i < numOfDraws; i++) {
+    const selectedIndices = new Set<number>();
+
+    while (
+      draws.length < numOfDraws &&
+      selectedIndices.size < selectedCharacters.length
+    ) {
       const randomIndex = Math.floor(Math.random() * selectedCharacters.length);
-      draws.push(selectedCharacters[randomIndex]);
+      if (!selectedIndices.has(randomIndex)) {
+        selectedIndices.add(randomIndex);
+        draws.push(selectedCharacters[randomIndex]);
+      }
     }
+
     setResult(draws);
   };
 
