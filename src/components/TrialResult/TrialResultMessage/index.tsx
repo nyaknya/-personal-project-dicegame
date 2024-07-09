@@ -4,11 +4,13 @@ import "./style.css";
 interface TrialResultMessageProps {
   detailedResult: string;
   copyResult: string;
+  isSuccess: boolean; // 추가
 }
 
 export default function TrialResultMessage({
   detailedResult,
   copyResult,
+  isSuccess, // 추가
 }: TrialResultMessageProps) {
   const handleCopy = () => {
     navigator.clipboard.writeText(copyResult).then(() => {
@@ -19,7 +21,14 @@ export default function TrialResultMessage({
   return (
     <div className="trial-result-message-container">
       <div className="result-section">
-        <h2>판정 결과</h2>
+        <div className="result-title">
+          <h2>판정 결과</h2>
+          <span
+            className={`result-status ${isSuccess ? "success" : "failure"}`}
+          >
+            {isSuccess ? "성공" : "실패"}
+          </span>
+        </div>
         <div className="result-content">
           {detailedResult.split("\n").map((line, index) => (
             <p key={index}>{line}</p>

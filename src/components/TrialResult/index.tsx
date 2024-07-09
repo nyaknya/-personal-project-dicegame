@@ -19,6 +19,7 @@ export default function TrialResult() {
   const [successRate, setSuccessRate] = useState<string>("-");
   const [detailedResult, setDetailedResult] = useState<string>("");
   const [copyResult, setCopyResult] = useState<string>("");
+  const [isSuccess, setIsSuccess] = useState<boolean>(false); // 추가
   const [currentStats, setCurrentStats] = useState<{
     aggressive: number;
     creativity: number;
@@ -35,7 +36,7 @@ export default function TrialResult() {
     const currentStat = calculateCurrentStat();
     let isSuccess = false;
     let resultMessage = "";
-    let copyMessage = "";
+    let failureResult = "";
 
     if (currentStat >= requiredValue) {
       setDifficulty("안전");
@@ -64,6 +65,7 @@ export default function TrialResult() {
     }
 
     setDetailedResult(resultMessage);
+    setIsSuccess(isSuccess); // 성공 여부 설정
   };
 
   const handleFailure = () => {
@@ -183,6 +185,7 @@ export default function TrialResult() {
       <TrialResultMessage
         detailedResult={detailedResult}
         copyResult={copyResult}
+        isSuccess={isSuccess}
       />
     </div>
   );
