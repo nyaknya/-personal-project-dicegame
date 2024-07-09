@@ -4,6 +4,7 @@ import { useCharacterStore } from "../../stores/useCharacterStore";
 import StatsTable from "./StatsTable";
 import JudgeTypeSelector from "./JudgeTypeSelector";
 import TypeEditSection from "./TypeEditSection";
+import TrialResultMessage from "./TrialResultMessage";
 
 export default function TrialResult() {
   const characterStates = useCharacterStore((state) => state.characterStates);
@@ -16,7 +17,8 @@ export default function TrialResult() {
   const [injuryHP, setInjuryHP] = useState<number>(0);
   const [difficulty, setDifficulty] = useState<string>("-");
   const [successRate, setSuccessRate] = useState<string>("-");
-  const [result, setResult] = useState<string>("");
+  const [detailedResult, setDetailedResult] = useState<string>("");
+  const [copyResult, setCopyResult] = useState<string>("");
   const [currentStats, setCurrentStats] = useState<{
     aggressive: number;
     creativity: number;
@@ -32,38 +34,41 @@ export default function TrialResult() {
   const handleResultCheck = () => {
     const currentStat = calculateCurrentStat();
     let isSuccess = false;
-    let detailedResult = "";
+    let resultMessage = "";
+    let failureResult = "";
 
     if (currentStat >= requiredValue) {
       setDifficulty("안전");
       setSuccessRate("100%");
       isSuccess = true;
-      detailedResult = "안전 성공! 부상이나 감염 없음.";
+      resultMessage = "안전 성공! 부상이나 감염 없음.";
+      setCopyResult("");
     } else if (currentStat >= Math.floor(requiredValue * 0.8)) {
       setDifficulty("주의");
       setSuccessRate("50%");
       isSuccess = Math.random() < 0.5;
-      detailedResult = isSuccess
+      resultMessage = isSuccess
         ? "주의 성공! 부상이나 감염 없음."
         : handleFailure();
     } else if (currentStat >= Math.floor(requiredValue * 0.6)) {
       setDifficulty("위험");
       setSuccessRate("30%");
       isSuccess = Math.random() < 0.3;
-      detailedResult = isSuccess
+      resultMessage = isSuccess
         ? "위험 성공! 부상이나 감염 없음."
         : handleFailure();
     } else {
       setDifficulty("위험");
       setSuccessRate("30%");
-      detailedResult = handleFailure();
+      resultMessage = handleFailure();
     }
 
-    setResult(detailedResult);
+    setDetailedResult(resultMessage);
   };
 
   const handleFailure = () => {
-    let resultMessage = "판정 실패! ";
+    let resultMessage = "판정 실패!\n";
+    let copyMessage = "";
     const selectedParticipants = getRandomParticipants(extractedPeople);
 
     selectedParticipants.forEach((participant) => {
@@ -71,18 +76,24 @@ export default function TrialResult() {
         if (attackType === "infection") {
           const infectionRoll = Math.random();
           if (infectionRoll < 0.4) {
-            resultMessage += `${participant.character.name} -긁힘 `;
+            resultMessage += `${participant.character.name}가 긁힘을 당했습니다.\n`;
+            copyMessage += `${participant.character.name} -${injuryHP} (긁힘)\n`;
           } else if (infectionRoll < 0.4 + 0.6) {
-            resultMessage += `${participant.character.name} -찢김 `;
+            resultMessage += `${participant.character.name}가 찢김을 당했습니다.\n`;
+            copyMessage += `${participant.character.name} -${injuryHP} (찢김)\n`;
           } else {
-            resultMessage += `${participant.character.name} -물림 `;
+            resultMessage += `${participant.character.name}가 물림을 당했습니다.\n`;
+            copyMessage += `${participant.character.name} -${injuryHP} (물림)\n`;
           }
         } else {
           participant.character.current_hp -= injuryHP;
-          resultMessage += `${participant.character.name} -${injuryHP} `;
+          resultMessage += `${participant.character.name}가 ${injuryHP}만큼 부상당했습니다. 현재 HP: ${participant.character.current_hp}\n`;
+          copyMessage += `${participant.character.name} -${injuryHP}\n`;
         }
       }
     });
+
+    setCopyResult(copyMessage);
 
     return resultMessage;
   };
@@ -160,10 +171,11 @@ export default function TrialResult() {
             성공확률 <span>{successRate !== "-" ? successRate : "-"}</span>
           </p>
         </div>
-        <div className="trial-result-message">
-          <p>{result}</p>
-        </div>
       </div>
+      <TrialResultMessage
+        detailedResult={detailedResult}
+        copyResult={copyResult}
+      />
     </div>
   );
 }

@@ -2,6 +2,8 @@
   margin-top: 25px;
   display: flex;
   gap: 20px;
+  width: 880px;
+  flex-wrap: wrap;
 }
 
 .type-edit {
@@ -83,6 +85,12 @@
   margin-top: 18px;
   width: 100px;
   height: 46px;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+
+.judge-section button:hover {
+  background: var(--color-yellow);
 }
 
 .judge-type-select {

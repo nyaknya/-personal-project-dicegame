@@ -1,0 +1,52 @@
+.trial-result-message-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 880px;
+}
+
+.copy-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result-section,
+.copy-section {
+  width: 100%;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-section h2,
+.copy-section h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.result-content {
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 100px;
+  overflow-y: auto;
+}
+
+.fail {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+.copy-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  color: #007bff;
+  background: none;
+  cursor: pointer;
+}
