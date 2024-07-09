@@ -28,8 +28,8 @@
 .result-content {
   padding: 15px;
   border-radius: 8px;
-  min-height: 100px;
-  overflow-y: auto;
+  height: 100px;
+  overflow-y: scroll;
 }
 
 .copy-button {
