@@ -4,6 +4,7 @@ import Trial from "../../components/Trial";
 import TrialResult from "../../components/TrialResult";
 import NormalDice from "../../components/NormalDice";
 import DrawCharacter from "../../components/DrawCharacter";
+import Notepad from "../../components/Notepad";
 
 export default function DicePageDefault() {
   return (
@@ -16,6 +17,7 @@ export default function DicePageDefault() {
       <div className="addition-content">
         <NormalDice />
         <DrawCharacter />
+        <Notepad />
       </div>
     </div>
   );
