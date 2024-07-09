@@ -3,6 +3,7 @@ import "./style.css";
 import { useCharacterStore } from "../../stores/useCharacterStore";
 import StatsTable from "./StatsTable";
 import JudgeTypeSelector from "./JudgeTypeSelector";
+import TypeEditSection from "./TypeEditSection";
 
 export default function TrialResult() {
   const characterStates = useCharacterStore((state) => state.characterStates);
@@ -15,6 +16,7 @@ export default function TrialResult() {
   const [injuryHP, setInjuryHP] = useState<number>(0);
   const [difficulty, setDifficulty] = useState<string>("-");
   const [successRate, setSuccessRate] = useState<string>("-");
+  const [result, setResult] = useState<string>("");
   const [currentStats, setCurrentStats] = useState<{
     aggressive: number;
     creativity: number;
@@ -27,30 +29,67 @@ export default function TrialResult() {
 
   const participants = characterStates.filter((state) => state.isSelected);
 
-  const handleAttackTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setAttackType(event.target.value as "injury" | "infection");
-  };
-
-  const handleRequiredValueChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRequiredValue(parseInt(event.target.value));
-  };
-
-  const handleExtractedPeopleChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setExtractedPeople(parseInt(event.target.value));
-  };
-
-  const handleInjuryHPChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInjuryHP(parseInt(event.target.value));
-  };
-
   const handleResultCheck = () => {
-    // 결과 측정 로직 구현
+    const currentStat = calculateCurrentStat();
+    let isSuccess = false;
+    let detailedResult = "";
+
+    if (currentStat >= requiredValue) {
+      setDifficulty("안전");
+      setSuccessRate("100%");
+      isSuccess = true;
+      detailedResult = "안전 성공! 부상이나 감염 없음.";
+    } else if (currentStat >= Math.floor(requiredValue * 0.8)) {
+      setDifficulty("주의");
+      setSuccessRate("50%");
+      isSuccess = Math.random() < 0.5;
+      detailedResult = isSuccess
+        ? "주의 성공! 부상이나 감염 없음."
+        : handleFailure();
+    } else if (currentStat >= Math.floor(requiredValue * 0.6)) {
+      setDifficulty("위험");
+      setSuccessRate("30%");
+      isSuccess = Math.random() < 0.3;
+      detailedResult = isSuccess
+        ? "위험 성공! 부상이나 감염 없음."
+        : handleFailure();
+    } else {
+      setDifficulty("위험");
+      setSuccessRate("30%");
+      detailedResult = handleFailure();
+    }
+
+    setResult(detailedResult);
+  };
+
+  const handleFailure = () => {
+    let resultMessage = "판정 실패! ";
+    const selectedParticipants = getRandomParticipants(extractedPeople);
+
+    selectedParticipants.forEach((participant) => {
+      if (participant.character) {
+        if (attackType === "infection") {
+          const infectionRoll = Math.random();
+          if (infectionRoll < 0.4) {
+            resultMessage += `${participant.character.name} -긁힘 `;
+          } else if (infectionRoll < 0.4 + 0.6) {
+            resultMessage += `${participant.character.name} -찢김 `;
+          } else {
+            resultMessage += `${participant.character.name} -물림 `;
+          }
+        } else {
+          participant.character.current_hp -= injuryHP;
+          resultMessage += `${participant.character.name} -${injuryHP} `;
+        }
+      }
+    });
+
+    return resultMessage;
+  };
+
+  const getRandomParticipants = (count: number) => {
+    const shuffled = participants.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
   };
 
   const calculateCurrentStat = useCallback(() => {
@@ -99,70 +138,19 @@ export default function TrialResult() {
     <div className="trial-result">
       <StatsTable participants={participants} onStatsChange={setCurrentStats} />
       <div>
-        <div className="edit-field">
-          <div className="type-edit">
-            <div className="attack-type">
-              <h2>공격 유형</h2>
-              <label>
-                <input
-                  type="radio"
-                  value="injury"
-                  checked={attackType === "injury"}
-                  onChange={handleAttackTypeChange}
-                />
-                부상
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="infection"
-                  checked={attackType === "infection"}
-                  onChange={handleAttackTypeChange}
-                />
-                감염
-              </label>
-            </div>
-            <div className="judge-section">
-              <div className="judge-type">
-                <h2>판정 유형</h2>
-                <JudgeTypeSelector
-                  judgeType={judgeType}
-                  setJudgeType={setJudgeType}
-                />
-              </div>
-              <div className="input-field">
-                <h2>요구치</h2>
-                <input
-                  type="number"
-                  value={requiredValue}
-                  onChange={handleRequiredValueChange}
-                  placeholder="요구치"
-                />
-              </div>
-              <div className="input-field">
-                <h2>벌칙 인원</h2>
-                <input
-                  type="number"
-                  value={extractedPeople}
-                  onChange={handleExtractedPeopleChange}
-                  placeholder="인원"
-                />
-              </div>
-              <div className="input-field">
-                <h2>부상 HP</h2>
-                <input
-                  type="number"
-                  value={injuryHP}
-                  onChange={handleInjuryHPChange}
-                  placeholder="부상 HP"
-                />
-              </div>
-              <button className="result-button" onClick={handleResultCheck}>
-                결과 측정
-              </button>
-            </div>
-          </div>
-        </div>
+        <TypeEditSection
+          attackType={attackType}
+          judgeType={judgeType}
+          requiredValue={requiredValue}
+          extractedPeople={extractedPeople}
+          injuryHP={injuryHP}
+          setAttackType={setAttackType}
+          setJudgeType={setJudgeType}
+          setRequiredValue={setRequiredValue}
+          setExtractedPeople={setExtractedPeople}
+          setInjuryHP={setInjuryHP}
+          handleResultCheck={handleResultCheck}
+        />
         <div className="trial-information">
           <p>
             난이도{" "}
@@ -171,6 +159,9 @@ export default function TrialResult() {
           <p>
             성공확률 <span>{successRate !== "-" ? successRate : "-"}</span>
           </p>
+        </div>
+        <div className="trial-result-message">
+          <p>{result}</p>
         </div>
       </div>
     </div>
