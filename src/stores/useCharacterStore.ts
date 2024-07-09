@@ -6,6 +6,7 @@ interface CharacterStore {
   totalStats: Stats;
   initializeCharacterStates: (states: CharacterState[]) => void;
   updateCharacterState: (index: number, state: CharacterState) => void;
+  toggleCharacterSelection: (index: number) => void;
 }
 
 const useCharacterStore = create<CharacterStore>((set) => ({
@@ -25,6 +26,14 @@ const useCharacterStore = create<CharacterStore>((set) => ({
         { aggressive: 0, creativity: 0, kindness: 0 }
       );
       return { characterStates: updatedStates, totalStats };
+    }),
+  toggleCharacterSelection: (index) =>
+    set((state) => {
+      const updatedStates = [...state.characterStates];
+      const currentState = updatedStates[index];
+      currentState.isSelected = !currentState.isSelected;
+      updatedStates[index] = currentState;
+      return { characterStates: updatedStates };
     }),
 }));
 

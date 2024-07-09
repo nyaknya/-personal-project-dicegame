@@ -2,7 +2,7 @@ import "./style.css";
 import { useContext, useRef, useState } from "react";
 import { CharactersContext } from "../../../context/CharactersContext";
 import useOutSideClick from "../../../hooks/useOutSideClick";
-import { Character, CharacterState } from "../../../types"; // CharacterState 가져오기
+import { Character, CharacterState } from "../../../types";
 import SelectBox from "./SelectBox";
 import SelectStats from "./SelectStats";
 import SelectCondition from "./SelectCondition";
@@ -19,6 +19,9 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   );
   const updateCharacterState = useCharacterStore(
     (state) => state.updateCharacterState
+  );
+  const toggleCharacterSelection = useCharacterStore(
+    (state) => state.toggleCharacterSelection
   );
   const characterStates = useCharacterStore((state) => state.characterStates);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -48,6 +51,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
         creativity: character.creativity,
         kindness: character.kindness,
       },
+      isSelected: characterState.isSelected, // 초기값 유지
     };
     if (character.status === "weakness") {
       updatedState.stats = {
@@ -124,9 +128,16 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
     );
   };
 
+  const handleCheckboxChange = () => {
+    toggleCharacterSelection(index);
+  };
+
   return (
     <div className="selected-character">
-      <SelectBox />
+      <SelectBox
+        checked={characterState.isSelected}
+        onChange={handleCheckboxChange}
+      />
       <div className="select-list" ref={ref}>
         <div
           className={`now-selected ${

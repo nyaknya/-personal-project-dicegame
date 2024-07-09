@@ -25,4 +25,5 @@ export interface CharacterState {
   isInfection: boolean;
   stats: Stats;
   originalStats: Stats;
+  isSelected: boolean;
 }

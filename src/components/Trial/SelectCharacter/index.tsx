@@ -4,6 +4,7 @@ import usePeopleCounterStore from "../../../stores/usePeopleCounterStore";
 import { useEffect, useContext } from "react";
 import { useCharacterStore } from "../../../stores/useCharacterStore";
 import { CharactersContext } from "../../../context/CharactersContext";
+import { CharacterState } from "../../../types";
 
 export default function SelectCharacter() {
   const count = usePeopleCounterStore((state) => state.count);
@@ -15,7 +16,7 @@ export default function SelectCharacter() {
 
   useEffect(() => {
     if (characterStates.length < count) {
-      const additionalCharacters = Array.from(
+      const additionalCharacters: CharacterState[] = Array.from(
         { length: count - characterStates.length },
         () => ({
           character: null,
@@ -31,6 +32,7 @@ export default function SelectCharacter() {
             creativity: 0,
             kindness: 0,
           },
+          isSelected: false, // 추가된 속성
         })
       );
       initializeCharacterStates([...characterStates, ...additionalCharacters]);
@@ -40,7 +42,6 @@ export default function SelectCharacter() {
   return (
     <div className="trial-select">
       <div className="select-category">
-        <input type="checkbox" />
         <span className="name">캐릭터 이름</span>
         <div className="stats">
           <span>호전성</span>
