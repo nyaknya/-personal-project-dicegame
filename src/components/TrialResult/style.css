@@ -4,6 +4,16 @@
   gap: 20px;
 }
 
+.type-edit {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.trial-infomation {
+  grid-column: span 2;
+}
+
 .attack-type {
   display: flex;
   flex-direction: column;
@@ -95,4 +105,33 @@
 
 .judge-type-option:hover {
   background: var(--color-gray01);
+}
+
+.trial-information {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.trial-information span {
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.trial-information .safe {
+  color: green;
+}
+
+.trial-information .caution {
+  color: orange;
+}
+
+.trial-information .danger {
+  color: red;
+}
+
+.trial-information .fail {
+  color: gray;
 }
