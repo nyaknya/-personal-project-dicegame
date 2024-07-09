@@ -6,11 +6,6 @@ import JudgeTypeSelector from "./JudgeTypeSelector";
 
 export default function TrialResult() {
   const characterStates = useCharacterStore((state) => state.characterStates);
-  const [requiredStats, setRequiredStats] = useState({
-    aggressive: 100,
-    creativity: 80,
-    kindness: 60,
-  });
   const [attackType, setAttackType] = useState<"injury" | "infection">(
     "injury"
   );
@@ -49,7 +44,7 @@ export default function TrialResult() {
 
   return (
     <div className="trial-result">
-      <StatsTable participants={participants} requiredStats={requiredStats} />
+      <StatsTable participants={participants} />
       <div className="attack-type">
         <h2>공격 유형</h2>
         <label>

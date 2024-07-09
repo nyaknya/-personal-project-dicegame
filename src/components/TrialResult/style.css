@@ -27,6 +27,7 @@
 
 .stats-table h2 {
   margin-bottom: 10px;
+  font-size: 14px;
 }
 
 .stats-table table {
@@ -72,4 +73,26 @@
   margin-top: 18px;
   width: 100px;
   height: 46px;
+}
+
+.judge-type-select {
+  position: absolute;
+  text-align: center;
+  top: 50px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray02);
+  background-color: #fff;
+  z-index: 1;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.judge-type-option {
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+
+.judge-type-option:hover {
+  background: var(--color-gray01);
 }

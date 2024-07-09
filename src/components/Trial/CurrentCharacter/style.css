@@ -16,6 +16,7 @@
 
 .select-list {
   position: relative;
+  width: 185px;
 }
 
 .select-list .now-selected {
