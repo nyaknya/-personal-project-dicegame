@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/MainPage";
-import DicePageDefault from "./pages/DicePageDefault";
 import "./App.css";
 
 function App() {
@@ -8,7 +7,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<Home />} />
-        <Route path="/dicedefault" element={<DicePageDefault />} />
       </Routes>
     </BrowserRouter>
   );
