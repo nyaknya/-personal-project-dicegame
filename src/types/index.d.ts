@@ -7,6 +7,7 @@ export interface Stats {
 }
 
 export interface Character {
+  id: number;
   name: string;
   max_hp: number;
   current_hp: number;
