@@ -107,6 +107,7 @@ export default function TypeEditSection({
               value={injuryHP}
               onChange={handleInjuryHPChange}
               placeholder="부상 HP"
+              disabled={attackType === "infection"} // 감염일 경우 비활성화
             />
           </div>
           <button className="result-button" onClick={handleResultCheck}>

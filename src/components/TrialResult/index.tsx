@@ -74,33 +74,36 @@ export default function TrialResult() {
 
     selectedParticipants.forEach((participant) => {
       if (participant.character) {
+        let damage = 0;
         if (attackType === "infection") {
           const infectionRoll = Math.random();
           if (infectionRoll < 0.4) {
-            resultMessage += `${participant.character.name} [긁힘/체력-${injuryHP}]\n`;
-            copyMessage += `${participant.character.name} [긁힘/체력-${injuryHP}]\n`;
-            const infectionSuccess = Math.random() < 0.3;
+            damage = 5 + Math.floor(Math.random() * 3) * 5; // 5, 10, 15 중 하나
+            resultMessage += `${participant.character.name}가 긁힘을 당했습니다. [긁힘/체력-${damage}]\n`;
+            copyMessage += `${participant.character.name} -${damage} (긁힘)\n`;
+            const infectionSuccess = Math.random() < 0.3; // 감염 판정
             if (infectionSuccess) {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
-          } else if (infectionRoll < 0.8) {
-            // 찢김
-            resultMessage += `${participant.character.name} [찢김/체력-${injuryHP}]\n`;
-            copyMessage += `${participant.character.name} [찢김/체력-${injuryHP}]\n`;
-            const infectionSuccess = Math.random() < 0.6;
+          } else if (infectionRoll < 0.4 + 0.6) {
+            damage = 15 + Math.floor(Math.random() * 3) * 5; // 15, 20, 25 중 하나
+            resultMessage += `${participant.character.name}가 찢김을 당했습니다. [찢김/체력-${damage}]\n`;
+            copyMessage += `${participant.character.name} -${damage} (찢김)\n`;
+            const infectionSuccess = Math.random() < 0.6; // 감염 판정
             if (infectionSuccess) {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
           } else {
-            // 물림
-            resultMessage += `${participant.character.name} [물림/체력-${injuryHP}]\n`;
-            copyMessage += `${participant.character.name} [물림/체력-${injuryHP}]\n`;
-            resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
+            damage = 20 + Math.floor(Math.random() * 4) * 5; // 20, 25, 30, 35 중 하나
+            resultMessage += `${participant.character.name}가 물림을 당했습니다. [물림/체력-${damage}]\n`;
+            copyMessage += `${participant.character.name} -${damage} (물림)\n`;
+            resultMessage += `${participant.character.name}가 감염되었습니다.\n`; // 100% 감염
           }
         } else {
+          damage = injuryHP;
           participant.character.current_hp -= injuryHP;
-          resultMessage += `${participant.character.name} [부상/체력-${injuryHP}]\n`;
-          copyMessage += `${participant.character.name} [부상/체력-${injuryHP}]\n`;
+          resultMessage += `${participant.character.name}가 ${injuryHP}만큼 부상당했습니다. [부상/체력-${damage}]\n`;
+          copyMessage += `${participant.character.name} -${damage}\n`;
         }
       }
     });
