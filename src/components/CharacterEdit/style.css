@@ -1,0 +1,73 @@
+.character-edit-container h2 {
+  margin-top: 25px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.character-select {
+  margin-bottom: 1%;
+}
+
+.character-select label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.character-select select {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.character-details {
+  margin-top: 10px;
+}
+
+.character-details .character-status {
+  margin-bottom: 10px;
+}
+
+.character-details .character-status label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.character-details .select-condition {
+  display: flex;
+  gap: 10px;
+}
+
+.character-details .select-condition div {
+  display: flex;
+  align-items: center;
+}
+
+.character-details .select-condition input {
+  margin-right: 5px;
+}
+
+.character-details label {
+  font-weight: bold;
+}
+
+.character-details input[type="text"] {
+  width: calc(100% - 10px);
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.character-details button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--color-black);
+  color: white;
+  cursor: pointer;
+}
+
+.character-details button:hover {
+  background-color: var(--color-yellow);
+}
