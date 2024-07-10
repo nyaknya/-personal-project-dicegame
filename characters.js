@@ -9,7 +9,7 @@ const characters = [
     creativity: 1,
     kindness: 3,
     status: null,
-    equipment: "무기 부품",
+    equipment: null,
   },
   {
     name: "메리제인",
@@ -20,7 +20,7 @@ const characters = [
     aggressive: 5,
     creativity: 2,
     kindness: 1,
-    status: "weakness",
+    status: null,
     equipment: null,
   },
   {
@@ -32,7 +32,7 @@ const characters = [
     aggressive: 2,
     creativity: 5,
     kindness: 1,
-    status: "infection",
+    status: null,
     equipment: null,
   },
   {
