@@ -186,9 +186,9 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
             onInfectionChange={handleInfectionChange}
             onNormalChange={handleNormalChange}
           />
-          <div className="select-equipment">
+          {/* <div className="select-equipment">
             {characterState.character.equipment}
-          </div>
+          </div> */}
         </>
       )}
     </div>

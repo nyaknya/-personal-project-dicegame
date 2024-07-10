@@ -63,7 +63,7 @@ export default function SelectCharacter() {
           <span>이타성</span>
         </div>
         <span className="debuff">상태</span>
-        <span className="equipment">장착한 장비</span>
+        {/* <span className="equipment">장착한 장비</span> */}
       </div>
       <div className="select-content">
         {characterStates.map((_, index) => (
