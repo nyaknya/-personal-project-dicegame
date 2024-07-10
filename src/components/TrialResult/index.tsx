@@ -85,7 +85,8 @@ export default function TrialResult() {
             if (infectionSuccess) {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
-          } else if (infectionRoll < 0.4 + 0.6) {
+          } else if (infectionRoll < 0.4 + 0.3) {
+            // 0.4 + 0.3 = 0.7, 찢김 확률을 30%로 변경
             damage = 15 + Math.floor(Math.random() * 3) * 5; // 15, 20, 25 중 하나
             resultMessage += `${participant.character.name}가 찢김을 당했습니다. [찢김/체력-${damage}]\n`;
             copyMessage += `${participant.character.name} -${damage} (찢김)\n`;
@@ -94,6 +95,7 @@ export default function TrialResult() {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
           } else {
+            // 나머지 확률은 물림으로 처리
             damage = 20 + Math.floor(Math.random() * 4) * 5; // 20, 25, 30, 35 중 하나
             resultMessage += `${participant.character.name}가 물림을 당했습니다. [물림/체력-${damage}]\n`;
             copyMessage += `${participant.character.name} -${damage} (물림)\n`;
