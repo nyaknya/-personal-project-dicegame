@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
+import axios from "axios";
 import "./style.css";
 import { useCharacterStore } from "../../stores/useCharacterStore";
 import StatsTable from "./StatsTable";
-import JudgeTypeSelector from "./JudgeTypeSelector";
 import TypeEditSection from "./TypeEditSection";
 import TrialResultMessage from "./TrialResultMessage";
 
@@ -19,7 +19,7 @@ export default function TrialResult() {
   const [successRate, setSuccessRate] = useState<string>("-");
   const [detailedResult, setDetailedResult] = useState<string>("");
   const [copyResult, setCopyResult] = useState<string>("");
-  const [isSuccess, setIsSuccess] = useState<boolean>(false); // 추가
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [currentStats, setCurrentStats] = useState<{
     aggressive: number;
     creativity: number;
@@ -36,7 +36,6 @@ export default function TrialResult() {
     const currentStat = calculateCurrentStat();
     let isSuccess = false;
     let resultMessage = "";
-    let failureResult = "";
 
     if (currentStat >= requiredValue) {
       setDifficulty("안전");
@@ -65,7 +64,7 @@ export default function TrialResult() {
     }
 
     setDetailedResult(resultMessage);
-    setIsSuccess(isSuccess); // 성공 여부 설정
+    setIsSuccess(isSuccess);
   };
 
   const handleFailure = () => {
@@ -78,28 +77,30 @@ export default function TrialResult() {
         if (attackType === "infection") {
           const infectionRoll = Math.random();
           if (infectionRoll < 0.4) {
-            resultMessage += `${participant.character.name}가 긁힘을 당했습니다.\n`;
-            copyMessage += `${participant.character.name} -${injuryHP} (긁힘)\n`;
-            const infectionSuccess = Math.random() < 0.3; // 감염 판정
+            resultMessage += `${participant.character.name} [긁힘/체력-${injuryHP}]\n`;
+            copyMessage += `${participant.character.name} [긁힘/체력-${injuryHP}]\n`;
+            const infectionSuccess = Math.random() < 0.3;
             if (infectionSuccess) {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
-          } else if (infectionRoll < 0.4 + 0.6) {
-            resultMessage += `${participant.character.name}가 찢김을 당했습니다.\n`;
-            copyMessage += `${participant.character.name} -${injuryHP} (찢김)\n`;
-            const infectionSuccess = Math.random() < 0.6; // 감염 판정
+          } else if (infectionRoll < 0.8) {
+            // 찢김
+            resultMessage += `${participant.character.name} [찢김/체력-${injuryHP}]\n`;
+            copyMessage += `${participant.character.name} [찢김/체력-${injuryHP}]\n`;
+            const infectionSuccess = Math.random() < 0.6;
             if (infectionSuccess) {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
           } else {
-            resultMessage += `${participant.character.name}가 물림을 당했습니다.\n`;
-            copyMessage += `${participant.character.name} -${injuryHP} (물림)\n`;
-            resultMessage += `${participant.character.name}가 감염되었습니다.\n`; // 100% 감염
+            // 물림
+            resultMessage += `${participant.character.name} [물림/체력-${injuryHP}]\n`;
+            copyMessage += `${participant.character.name} [물림/체력-${injuryHP}]\n`;
+            resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
           }
         } else {
           participant.character.current_hp -= injuryHP;
-          resultMessage += `${participant.character.name}가 ${injuryHP}만큼 부상당했습니다. 현재 HP: ${participant.character.current_hp}\n`;
-          copyMessage += `${participant.character.name} -${injuryHP}\n`;
+          resultMessage += `${participant.character.name} [부상/체력-${injuryHP}]\n`;
+          copyMessage += `${participant.character.name} [부상/체력-${injuryHP}]\n`;
         }
       }
     });
