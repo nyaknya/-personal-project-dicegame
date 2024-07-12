@@ -1,5 +1,5 @@
 import "./style.css";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { CharactersContext } from "../../../context/CharactersContext";
 import useOutSideClick from "../../../hooks/useOutSideClick";
 import { Character, CharacterState } from "../../../types";
@@ -72,26 +72,45 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    if (characterState.character) {
+      const updatedState = { ...characterState };
+      if (updatedState.isWeakness) {
+        updatedState.stats = {
+          aggressive:
+            updatedState.originalStats.aggressive > 1
+              ? updatedState.originalStats.aggressive - 1
+              : 1,
+          creativity:
+            updatedState.originalStats.creativity > 1
+              ? updatedState.originalStats.creativity - 1
+              : 1,
+          kindness:
+            updatedState.originalStats.kindness > 0
+              ? updatedState.originalStats.kindness - 1
+              : 0,
+        };
+      } else if (updatedState.isInfection) {
+        updatedState.stats = {
+          aggressive: 1,
+          creativity: 1,
+          kindness: 0,
+        };
+      } else {
+        updatedState.stats = { ...updatedState.originalStats };
+      }
+      updateCharacterState(index, updatedState);
+    }
+  }, [
+    characterState.isWeakness,
+    characterState.isInfection,
+    characterState.character,
+    index,
+    updateCharacterState,
+  ]);
+
   const handleWeaknessChange = () => {
     const updatedState = { ...characterState };
-    if (!updatedState.isWeakness) {
-      updatedState.stats = {
-        aggressive:
-          updatedState.originalStats.aggressive > 1
-            ? updatedState.originalStats.aggressive - 1
-            : 1,
-        creativity:
-          updatedState.originalStats.creativity > 1
-            ? updatedState.originalStats.creativity - 1
-            : 1,
-        kindness:
-          updatedState.originalStats.kindness > 0
-            ? updatedState.originalStats.kindness - 1
-            : 0,
-      };
-    } else {
-      updatedState.stats = { ...updatedState.originalStats };
-    }
     updatedState.isWeakness = !updatedState.isWeakness;
     if (updatedState.isInfection) updatedState.isInfection = false;
     updateCharacterState(index, updatedState);
@@ -99,15 +118,6 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
 
   const handleInfectionChange = () => {
     const updatedState = { ...characterState };
-    if (!updatedState.isInfection) {
-      updatedState.stats = {
-        aggressive: 1,
-        creativity: 1,
-        kindness: 0,
-      };
-    } else {
-      updatedState.stats = { ...updatedState.originalStats };
-    }
     updatedState.isInfection = !updatedState.isInfection;
     if (updatedState.isWeakness) updatedState.isWeakness = false;
     updateCharacterState(index, updatedState);

@@ -1,3 +1,5 @@
+import React from "react";
+
 interface SelectConditionProps {
   characterName: string;
   isWeakness: boolean;
