@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useCallback } from "react";
 import "./style.css";
 import { useCharacterStore } from "../../stores/useCharacterStore";
 import StatsTable from "./StatsTable";
@@ -20,7 +19,7 @@ export default function TrialResult() {
   const [detailedResult, setDetailedResult] = useState<string>("");
   const [copyResult, setCopyResult] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [excludeBite, setExcludeBite] = useState<boolean>(false); // 물림 제외 옵션 추가
+  const [excludeBite, setExcludeBite] = useState<boolean>(false);
   const [currentStats, setCurrentStats] = useState<{
     aggressive: number;
     creativity: number;
@@ -81,32 +80,30 @@ export default function TrialResult() {
           if (infectionRoll < 0.4) {
             damage = 5 + Math.floor(Math.random() * 3) * 5; // 5, 10, 15 중 하나
             resultMessage += `${participant.character.name}가 긁힘을 당했습니다. [긁힘/체력-${damage}]\n`;
-            copyMessage += `${participant.character.name} -${damage} (긁힘)\n`;
+            copyMessage += `${participant.character.name} [긁힘/체력-${damage}]\n`;
             const infectionSuccess = Math.random() < 0.3; // 감염 판정
             if (infectionSuccess) {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
-          } else if (infectionRoll < 0.4 + 0.3) {
-            // 0.4 + 0.3 = 0.7, 찢김 확률을 30%로 변경
+          } else if (infectionRoll < 0.7) {
             damage = 15 + Math.floor(Math.random() * 3) * 5; // 15, 20, 25 중 하나
             resultMessage += `${participant.character.name}가 찢김을 당했습니다. [찢김/체력-${damage}]\n`;
-            copyMessage += `${participant.character.name} -${damage} (찢김)\n`;
+            copyMessage += `${participant.character.name} [찢김/체력-${damage}]\n`;
             const infectionSuccess = Math.random() < 0.6; // 감염 판정
             if (infectionSuccess) {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
           } else if (!excludeBite) {
-            // 나머지 확률은 물림으로 처리
             damage = 20 + Math.floor(Math.random() * 4) * 5; // 20, 25, 30, 35 중 하나
             resultMessage += `${participant.character.name}가 물림을 당했습니다. [물림/체력-${damage}]\n`;
-            copyMessage += `${participant.character.name} -${damage} (물림)\n`;
+            copyMessage += `${participant.character.name} [물림/체력-${damage}]\n`;
             resultMessage += `${participant.character.name}가 감염되었습니다.\n`; // 100% 감염
           }
         } else {
           damage = injuryHP;
           participant.character.current_hp -= injuryHP;
           resultMessage += `${participant.character.name}가 ${injuryHP}만큼 부상당했습니다. [부상/체력-${damage}]\n`;
-          copyMessage += `${participant.character.name} -${damage}\n`;
+          copyMessage += `${participant.character.name} [부상/체력-${damage}]\n`;
         }
       }
     });
@@ -172,16 +169,15 @@ export default function TrialResult() {
           requiredValue={requiredValue}
           extractedPeople={extractedPeople}
           injuryHP={injuryHP}
-          excludeBite={excludeBite} // 물림 제외 옵션 추가
+          excludeBite={excludeBite}
           setAttackType={setAttackType}
           setJudgeType={setJudgeType}
           setRequiredValue={setRequiredValue}
           setExtractedPeople={setExtractedPeople}
           setInjuryHP={setInjuryHP}
-          setExcludeBite={setExcludeBite} // 물림 제외 옵션 추가
+          setExcludeBite={setExcludeBite}
           handleResultCheck={handleResultCheck}
         />
-        <div></div>
         <div className="trial-information">
           {attackType === "infection" && (
             <div className="exclude-bite">
