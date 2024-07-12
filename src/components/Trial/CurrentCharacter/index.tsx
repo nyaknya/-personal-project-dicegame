@@ -132,6 +132,15 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
     toggleCharacterSelection(index);
   };
 
+  const handleStatsChange = (newStats: {
+    aggressive: number;
+    creativity: number;
+    kindness: number;
+  }) => {
+    const updatedState = { ...characterState, stats: newStats };
+    updateCharacterState(index, updatedState);
+  };
+
   return (
     <div
       className={`selected-character ${
@@ -177,6 +186,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
           <SelectStats
             character={characterState.character}
             stats={characterState.stats}
+            onStatsChange={handleStatsChange}
           />
           <SelectCondition
             characterName={characterState.character.name}

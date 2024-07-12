@@ -1,34 +1,34 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 
 interface StatsCounterProps {
   initial: number;
   current: number;
-  onValueChange?: (value: number) => void;
+  onStatChange: (value: number) => void;
 }
 
 export default function StatsCounter({
   initial,
   current,
-  onValueChange,
+  onStatChange,
 }: StatsCounterProps) {
-  const [count, setCount] = useState<number>(initial);
+  const [stat, setStat] = useState(current);
 
   useEffect(() => {
-    setCount(current);
+    setStat(current);
   }, [current]);
 
   const handleChange = (delta: number) => {
-    const newCount = count + delta;
-    setCount(newCount);
-    if (onValueChange) onValueChange(newCount);
+    const newStat = stat + delta;
+    setStat(newStat);
+    onStatChange(newStat);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    if (!isNaN(value)) {
-      setCount(value);
-      if (onValueChange) onValueChange(value);
+    const newStat = parseInt(event.target.value, 10);
+    if (!isNaN(newStat)) {
+      setStat(newStat);
+      onStatChange(newStat);
     }
   };
 
@@ -40,7 +40,7 @@ export default function StatsCounter({
       <input
         className="counter-number"
         type="number"
-        value={count}
+        value={stat}
         onChange={handleInputChange}
       />
       <button className="counter-button" onClick={() => handleChange(1)}>
