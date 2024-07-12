@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
-import "./style.css";
+import React, { useState, useCallback, useEffect } from "react";
 import { useCharacterStore } from "../../stores/useCharacterStore";
 import StatsTable from "./StatsTable";
 import TypeEditSection from "./TypeEditSection";
 import TrialResultMessage from "./TrialResultMessage";
+import "./style.css";
 
 export default function TrialResult() {
   const characterStates = useCharacterStore((state) => state.characterStates);
@@ -86,6 +86,7 @@ export default function TrialResult() {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
           } else if (infectionRoll < 0.7) {
+            // 찢김 확률을 30%로 변경
             damage = 15 + Math.floor(Math.random() * 3) * 5; // 15, 20, 25 중 하나
             resultMessage += `${participant.character.name}가 찢김을 당했습니다. [찢김/체력-${damage}]\n`;
             copyMessage += `${participant.character.name} [찢김/체력-${damage}]\n`;
@@ -94,15 +95,19 @@ export default function TrialResult() {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
           } else if (!excludeBite) {
+            // 물림 확률 적용
             damage = 20 + Math.floor(Math.random() * 4) * 5; // 20, 25, 30, 35 중 하나
             resultMessage += `${participant.character.name}가 물림을 당했습니다. [물림/체력-${damage}]\n`;
             copyMessage += `${participant.character.name} [물림/체력-${damage}]\n`;
             resultMessage += `${participant.character.name}가 감염되었습니다.\n`; // 100% 감염
+          } else {
+            damage = 15 + Math.floor(Math.random() * 3) * 5; // 15, 20, 25 중 하나
+            resultMessage += `${participant.character.name}가 찢김을 당했습니다. [찢김/체력-${damage}]\n`;
+            copyMessage += `${participant.character.name} [찢김/체력-${damage}]\n`;
           }
         } else {
           damage = injuryHP;
-          participant.character.current_hp -= injuryHP;
-          resultMessage += `${participant.character.name}가 ${injuryHP}만큼 부상당했습니다. [부상/체력-${damage}]\n`;
+          resultMessage += `${participant.character.name}가 부상을 당했습니다. [부상/체력-${damage}]\n`;
           copyMessage += `${participant.character.name} [부상/체력-${damage}]\n`;
         }
       }
@@ -162,36 +167,33 @@ export default function TrialResult() {
   return (
     <div className="trial-result">
       <StatsTable participants={participants} onStatsChange={setCurrentStats} />
-      <div>
+      <div className="trial-dashboard">
         <TypeEditSection
           attackType={attackType}
           judgeType={judgeType}
           requiredValue={requiredValue}
           extractedPeople={extractedPeople}
           injuryHP={injuryHP}
-          excludeBite={excludeBite}
           setAttackType={setAttackType}
           setJudgeType={setJudgeType}
           setRequiredValue={setRequiredValue}
           setExtractedPeople={setExtractedPeople}
           setInjuryHP={setInjuryHP}
-          setExcludeBite={setExcludeBite}
           handleResultCheck={handleResultCheck}
         />
-        <div className="trial-information">
-          {attackType === "infection" && (
-            <div className="exclude-bite">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={excludeBite}
-                  onChange={(e) => setExcludeBite(e.target.checked)}
-                />
-                물림 제외
-              </label>
-            </div>
-          )}
-          <div className="trial-dashboard">
+        <div className="display-flex">
+          <div className="exclude-bite">
+            <label>
+              <input
+                type="checkbox"
+                checked={excludeBite}
+                onChange={(e) => setExcludeBite(e.target.checked)}
+                disabled={attackType !== "infection"} // 감염일 경우에만 활성화
+              />
+              물림 제외
+            </label>
+          </div>
+          <div className="trial-information">
             <p>
               난이도{" "}
               <span className={getDifficultyClass(difficulty)}>

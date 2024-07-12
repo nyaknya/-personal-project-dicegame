@@ -1,3 +1,8 @@
+.display-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
 .trial-result {
   margin-top: 25px;
   display: flex;
@@ -153,11 +158,7 @@
   text-align: right;
 }
 
-.trial-information .exclude-bite {
-  width: 100%;
-}
-
-.trial-information .exclude-bite label {
+.exclude-bite label {
   font-weight: 400;
   font-size: 14px;
   display: flex;

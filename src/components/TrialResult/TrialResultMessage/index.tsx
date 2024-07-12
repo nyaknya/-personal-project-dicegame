@@ -1,16 +1,15 @@
-import React from "react";
 import "./style.css";
 
 interface TrialResultMessageProps {
   detailedResult: string;
   copyResult: string;
-  isSuccess: boolean; // 추가
+  isSuccess: boolean;
 }
 
 export default function TrialResultMessage({
   detailedResult,
   copyResult,
-  isSuccess, // 추가
+  isSuccess,
 }: TrialResultMessageProps) {
   const handleCopy = () => {
     navigator.clipboard.writeText(copyResult).then(() => {
