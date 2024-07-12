@@ -162,9 +162,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
           }`}
           onClick={toggleOpenClose}
         >
-          {characterState.character
-            ? characterState.character.name
-            : "캐릭터를 선택하세요."}
+          {characterState.character ? characterState.character.name : "-"}
           {isOpen ? (
             <img src="/images/up.svg" alt="위 화살표" />
           ) : (
