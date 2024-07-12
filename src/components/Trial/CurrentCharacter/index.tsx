@@ -25,6 +25,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   );
   const characterStates = useCharacterStore((state) => state.characterStates);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const ref = useRef<HTMLDivElement>(null);
 
   useOutSideClick({
@@ -34,6 +35,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
 
   const toggleOpenClose = () => {
     setIsOpen(!isOpen);
+    setSearchTerm(""); // 검색어 초기화
   };
 
   const handleCharacterClick = (character: Character) => {
@@ -124,7 +126,9 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
       .filter((state) => state.character)
       .map((state) => state.character?.name);
     return characters.filter(
-      (character) => !selectedCharacters.includes(character.name)
+      (character) =>
+        !selectedCharacters.includes(character.name) &&
+        character.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
 
@@ -168,17 +172,26 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
           )}
         </div>
         {isOpen && (
-          <ul className="character-select">
-            {getAvailableCharacters().map((character) => (
-              <li
-                key={character.name}
-                className="character-option"
-                onClick={() => handleCharacterClick(character)}
-              >
-                {character.name}
-              </li>
-            ))}
-          </ul>
+          <>
+            <input
+              type="text"
+              placeholder="캐릭터 검색"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="character-search"
+            />
+            <ul className="character-select">
+              {getAvailableCharacters().map((character) => (
+                <li
+                  key={character.name}
+                  className="character-option"
+                  onClick={() => handleCharacterClick(character)}
+                >
+                  {character.name}
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
       {characterState.character && (
@@ -196,9 +209,6 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
             onInfectionChange={handleInfectionChange}
             onNormalChange={handleNormalChange}
           />
-          {/* <div className="select-equipment">
-            {characterState.character.equipment}
-          </div> */}
         </>
       )}
     </div>
