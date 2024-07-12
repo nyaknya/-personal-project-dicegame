@@ -7,11 +7,13 @@ interface TypeEditSectionProps {
   requiredValue: number;
   extractedPeople: number;
   injuryHP: number;
+  excludeBite: boolean; // 물림 제외 옵션 추가
   setAttackType: (type: "injury" | "infection") => void;
   setJudgeType: (type: string) => void;
   setRequiredValue: (value: number) => void;
   setExtractedPeople: (value: number) => void;
   setInjuryHP: (value: number) => void;
+  setExcludeBite: (value: boolean) => void; // 물림 제외 옵션 추가
   handleResultCheck: () => void;
 }
 
@@ -21,11 +23,13 @@ export default function TypeEditSection({
   requiredValue,
   extractedPeople,
   injuryHP,
+  excludeBite,
   setAttackType,
   setJudgeType,
   setRequiredValue,
   setExtractedPeople,
   setInjuryHP,
+  setExcludeBite, // 물림 제외 옵션 추가
   handleResultCheck,
 }: TypeEditSectionProps) {
   const handleAttackTypeChange = (
@@ -50,8 +54,14 @@ export default function TypeEditSection({
     setInjuryHP(parseInt(event.target.value));
   };
 
+  const handleExcludeBiteChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setExcludeBite(event.target.checked);
+  };
+
   return (
-    <div className="edit-field">
+    <div className="edit-field ">
       <div className="type-edit">
         <div className="attack-type">
           <h2>공격 유형</h2>
@@ -107,13 +117,13 @@ export default function TypeEditSection({
               value={injuryHP}
               onChange={handleInjuryHPChange}
               placeholder="부상 HP"
-              disabled={attackType === "infection"} // 감염일 경우 비활성화
+              disabled={attackType === "infection"}
             />
           </div>
-          <button className="result-button" onClick={handleResultCheck}>
-            결과 측정
-          </button>
         </div>
+        <button className="result-button" onClick={handleResultCheck}>
+          결과 측정
+        </button>
       </div>
     </div>
   );

@@ -20,6 +20,7 @@ export default function TrialResult() {
   const [detailedResult, setDetailedResult] = useState<string>("");
   const [copyResult, setCopyResult] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [excludeBite, setExcludeBite] = useState<boolean>(false); // 물림 제외 옵션 추가
   const [currentStats, setCurrentStats] = useState<{
     aggressive: number;
     creativity: number;
@@ -94,7 +95,7 @@ export default function TrialResult() {
             if (infectionSuccess) {
               resultMessage += `${participant.character.name}가 감염되었습니다.\n`;
             }
-          } else {
+          } else if (!excludeBite) {
             // 나머지 확률은 물림으로 처리
             damage = 20 + Math.floor(Math.random() * 4) * 5; // 20, 25, 30, 35 중 하나
             resultMessage += `${participant.character.name}가 물림을 당했습니다. [물림/체력-${damage}]\n`;
@@ -171,21 +172,40 @@ export default function TrialResult() {
           requiredValue={requiredValue}
           extractedPeople={extractedPeople}
           injuryHP={injuryHP}
+          excludeBite={excludeBite} // 물림 제외 옵션 추가
           setAttackType={setAttackType}
           setJudgeType={setJudgeType}
           setRequiredValue={setRequiredValue}
           setExtractedPeople={setExtractedPeople}
           setInjuryHP={setInjuryHP}
+          setExcludeBite={setExcludeBite} // 물림 제외 옵션 추가
           handleResultCheck={handleResultCheck}
         />
+        <div></div>
         <div className="trial-information">
-          <p>
-            난이도{" "}
-            <span className={getDifficultyClass(difficulty)}>{difficulty}</span>
-          </p>
-          <p>
-            성공확률 <span>{successRate !== "-" ? successRate : "-"}</span>
-          </p>
+          {attackType === "infection" && (
+            <div className="exclude-bite">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={excludeBite}
+                  onChange={(e) => setExcludeBite(e.target.checked)}
+                />
+                물림 제외
+              </label>
+            </div>
+          )}
+          <div className="trial-dashboard">
+            <p>
+              난이도{" "}
+              <span className={getDifficultyClass(difficulty)}>
+                {difficulty}
+              </span>
+            </p>
+            <p>
+              성공확률 <span>{successRate !== "-" ? successRate : "-"}</span>
+            </p>
+          </div>
         </div>
       </div>
       <TrialResultMessage

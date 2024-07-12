@@ -76,7 +76,8 @@
   border-radius: 8px;
 }
 
-.judge-section button {
+.judge-section button,
+.result-button {
   color: var(--color-white);
   background: var(--color-black);
   border: none;
@@ -142,4 +143,24 @@
 
 .trial-information .fail {
   color: gray;
+}
+
+.trial-information .trial-dashboard {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+  min-width: 250px;
+  text-align: right;
+}
+
+.trial-information .exclude-bite {
+  width: 100%;
+}
+
+.trial-information .exclude-bite label {
+  font-weight: 400;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
