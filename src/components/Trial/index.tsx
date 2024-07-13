@@ -4,6 +4,7 @@ import SelectCharacter from "./SelectCharacter";
 import usePeopleCounterStore from "../../stores/usePeopleCounterStore";
 import TrialCaption from "./TrialCaption";
 import { useCharacterStore } from "../../stores/useCharacterStore";
+import CharacterSelector from "../../components/CharacterSelector";
 
 export default function Trial() {
   const count = usePeopleCounterStore((state) => state.count);
@@ -23,6 +24,7 @@ export default function Trial() {
           kindness={totalStats.kindness}
         />
       </div>
+      <CharacterSelector />
       <SelectCharacter />
     </div>
   );
