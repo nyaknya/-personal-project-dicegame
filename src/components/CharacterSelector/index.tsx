@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useCharacterStore } from "../../stores/useCharacterStore";
 import { CharactersContext } from "../../context/CharactersContext";
 import "./style.css";
@@ -11,6 +11,7 @@ export default function CharacterSelector() {
   );
   const [searchName, setSearchName] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState("");
+  const [activeIndex, setActiveIndex] = useState(-1);
 
   const handleCharacterSelect = (name: string) => {
     const character = characters.find((c) => c.name === name);
@@ -30,6 +31,7 @@ export default function CharacterSelector() {
       }
       setSelectedCharacter(name);
       setSearchName("");
+      setActiveIndex(-1);
     } else {
       alert("해당 이름의 캐릭터가 없습니다.");
     }
@@ -37,13 +39,29 @@ export default function CharacterSelector() {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleCharacterSelect(searchName.trim());
+      if (activeIndex >= 0 && activeIndex < filteredCharacters.length) {
+        handleCharacterSelect(filteredCharacters[activeIndex].name);
+      } else {
+        handleCharacterSelect(searchName.trim());
+      }
+    } else if (e.key === "ArrowDown") {
+      setActiveIndex((prevIndex) =>
+        prevIndex < filteredCharacters.length - 1 ? prevIndex + 1 : prevIndex
+      );
+    } else if (e.key === "ArrowUp") {
+      setActiveIndex((prevIndex) =>
+        prevIndex > 0 ? prevIndex - 1 : prevIndex
+      );
     }
   };
 
   const filteredCharacters = characters.filter((character) =>
     character.name.toLowerCase().includes(searchName.toLowerCase())
   );
+
+  useEffect(() => {
+    setActiveIndex(-1);
+  }, [searchName]);
 
   return (
     <div className="character-selector">
@@ -62,12 +80,14 @@ export default function CharacterSelector() {
         searchName !== selectedCharacter &&
         filteredCharacters.length > 0 && (
           <ul className="filtered-character-list">
-            {filteredCharacters.map((character) => (
+            {filteredCharacters.map((character, index) => (
               <li
                 key={character.name}
+                className={index === activeIndex ? "active" : ""}
                 onClick={() => {
                   setSelectedCharacter(character.name);
                   setSearchName(character.name);
+                  setActiveIndex(-1);
                 }}
               >
                 {character.name}
