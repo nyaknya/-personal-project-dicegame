@@ -41,10 +41,10 @@ const characters = [
     current_hp: 150,
     max_mental: 100,
     current_mental: 100,
-    aggressive: 5,
-    creativity: 3,
+    aggressive: 1,
+    creativity: 1,
     kindness: 0,
-    status: null,
+    status: "infection",
     equipment: null,
   },
   {
