@@ -1,10 +1,8 @@
-import { useState, useContext, useEffect } from "react";
-import { CharactersContext } from "../context/CharactersContext";
+import { useState, useEffect, useCallback } from "react";
 import { Character } from "../types";
-import { useKeyboardNavigation } from "../hooks/useKeyboardNavigation";
+import { useKeyboardNavigation } from "./useKeyboardNavigation";
 
-export function useCharacterSearch() {
-  const { characters } = useContext(CharactersContext);
+export function useCharacterSearch(characters: Character[]) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
@@ -35,8 +33,6 @@ export function useCharacterSearch() {
   return {
     searchTerm,
     setSearchTerm,
-    selectedCharacter,
-    setSelectedCharacter,
     filteredCharacters,
     activeIndex,
     handleKeyDown,

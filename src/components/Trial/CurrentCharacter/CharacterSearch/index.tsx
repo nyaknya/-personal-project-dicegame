@@ -1,6 +1,7 @@
-import { useState, useRef } from "react";
-import useOutSideClick from "../../../../hooks/useOutSideClick";
+import React, { useState, useRef, useContext, useEffect } from "react";
+import { CharactersContext } from "../../../../context/CharactersContext";
 import { Character } from "../../../../types";
+import useOutSideClick from "../../../../hooks/useOutSideClick";
 import { useCharacterSearch } from "../../../../hooks/useCharacterSearch";
 
 interface CharacterSearchProps {
@@ -14,6 +15,7 @@ export default function CharacterSearch({
   selectedCharacterNames,
   selectedCharacter,
 }: CharacterSearchProps) {
+  const { characters } = useContext(CharactersContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const {
     searchTerm,
@@ -21,14 +23,26 @@ export default function CharacterSearch({
     filteredCharacters,
     activeIndex,
     handleKeyDown,
-  } = useCharacterSearch();
+  } = useCharacterSearch(characters);
 
   const ref = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
   useOutSideClick({
     ref,
     callback: () => setIsOpen(false),
   });
+
+  useEffect(() => {
+    if (listRef.current && activeIndex !== -1) {
+      const activeElement = listRef.current.children[
+        activeIndex
+      ] as HTMLElement;
+      if (activeElement) {
+        activeElement.scrollIntoView({ block: "nearest" });
+      }
+    }
+  }, [activeIndex]);
 
   const toggleOpenClose = () => {
     setIsOpen(!isOpen);
@@ -40,6 +54,36 @@ export default function CharacterSearch({
       (character) => !selectedCharacterNames.includes(character.name)
     );
   };
+
+  const handleCharacterSelect = (character: Character) => {
+    onCharacterClick(character);
+    setSearchTerm(character.name);
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (isOpen) {
+        if (
+          event.key === "Enter" &&
+          activeIndex >= 0 &&
+          activeIndex < filteredCharacters.length
+        ) {
+          handleCharacterSelect(filteredCharacters[activeIndex]);
+        } else {
+          handleKeyDown(
+            event as unknown as React.KeyboardEvent<HTMLInputElement>
+          );
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [isOpen, handleKeyDown, activeIndex, filteredCharacters]);
 
   return (
     <div className="select-list" ref={ref}>
@@ -61,15 +105,14 @@ export default function CharacterSearch({
             onKeyDown={handleKeyDown}
             className="character-search"
           />
-          <ul className="character-select">
+          <ul className="character-select" ref={listRef}>
             {getAvailableCharacters().map((character, index) => (
               <li
                 key={character.name}
-                className={index === activeIndex ? "active" : ""}
-                onClick={() => {
-                  onCharacterClick(character);
-                  setIsOpen(false);
-                }}
+                className={`character-option ${
+                  index === activeIndex ? "active" : ""
+                }`}
+                onClick={() => handleCharacterSelect(character)}
               >
                 {character.name}
               </li>
