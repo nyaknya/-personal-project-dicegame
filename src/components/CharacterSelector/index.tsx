@@ -1,7 +1,7 @@
-import { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useCharacterStore } from "../../stores/useCharacterStore";
+import { useCharacterSearch } from "../../hooks/useCharacterSearch";
 import { CharactersContext } from "../../context/CharactersContext";
-import { useKeyboardNavigation } from "../../hooks/useKeyboardNavigation";
 import "./style.css";
 
 export default function CharacterSelector() {
@@ -10,23 +10,16 @@ export default function CharacterSelector() {
   const updateCharacterState = useCharacterStore(
     (state) => state.updateCharacterState
   );
-  const [searchName, setSearchName] = useState("");
-  const [selectedCharacter, setSelectedCharacter] = useState("");
 
-  const filteredCharacters = characters.filter((character) =>
-    character.name.toLowerCase().includes(searchName.toLowerCase())
-  );
-
-  const { activeIndex, handleKeyDown } = useKeyboardNavigation(
-    filteredCharacters.length,
-    (index) => {
-      if (index >= 0 && index < filteredCharacters.length) {
-        handleCharacterSelect(filteredCharacters[index].name);
-      } else {
-        handleCharacterSelect(searchName.trim());
-      }
-    }
-  );
+  const {
+    searchTerm,
+    setSearchTerm,
+    selectedCharacter,
+    setSelectedCharacter,
+    filteredCharacters,
+    activeIndex,
+    handleKeyDown,
+  } = useCharacterSearch();
 
   const handleCharacterSelect = (name: string) => {
     const character = characters.find((c) => c.name === name);
@@ -44,8 +37,8 @@ export default function CharacterSelector() {
       } else {
         alert("해당 캐릭터를 찾을 수 없습니다.");
       }
-      setSelectedCharacter(name);
-      setSearchName("");
+      setSelectedCharacter(character);
+      setSearchTerm("");
     } else {
       alert("해당 이름의 캐릭터가 없습니다.");
     }
@@ -55,17 +48,17 @@ export default function CharacterSelector() {
     <div className="character-selector">
       <input
         type="text"
-        value={searchName}
-        onChange={(e) => setSearchName(e.target.value)}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="캐릭터 이름 입력"
         onKeyDown={handleKeyDown}
       />
-      <button onClick={() => handleCharacterSelect(searchName.trim())}>
+      <button onClick={() => handleCharacterSelect(searchTerm.trim())}>
         선택
       </button>
       <span>◀ 캐릭터 원격 선택</span>
-      {searchName &&
-        searchName !== selectedCharacter &&
+      {searchTerm &&
+        searchTerm !== selectedCharacter?.name &&
         filteredCharacters.length > 0 && (
           <ul className="filtered-character-list">
             {filteredCharacters.map((character, index) => (
@@ -73,8 +66,8 @@ export default function CharacterSelector() {
                 key={character.name}
                 className={index === activeIndex ? "active" : ""}
                 onClick={() => {
-                  setSelectedCharacter(character.name);
-                  setSearchName(character.name);
+                  setSelectedCharacter(character);
+                  setSearchTerm(character.name);
                 }}
               >
                 {character.name}

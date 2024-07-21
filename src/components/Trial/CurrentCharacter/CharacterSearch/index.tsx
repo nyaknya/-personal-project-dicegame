@@ -1,7 +1,7 @@
-import React, { useState, useRef, useContext } from "react";
-import { CharactersContext } from "../../../../context/CharactersContext";
-import { Character } from "../../../../types";
+import { useState, useRef } from "react";
 import useOutSideClick from "../../../../hooks/useOutSideClick";
+import { Character } from "../../../../types";
+import { useCharacterSearch } from "../../../../hooks/useCharacterSearch";
 
 interface CharacterSearchProps {
   onCharacterClick: (character: Character) => void;
@@ -9,14 +9,20 @@ interface CharacterSearchProps {
   selectedCharacter: Character | null;
 }
 
-const CharacterSearch: React.FC<CharacterSearchProps> = ({
+export default function CharacterSearch({
   onCharacterClick,
   selectedCharacterNames,
   selectedCharacter,
-}) => {
-  const { characters } = useContext(CharactersContext);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+}: CharacterSearchProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const {
+    searchTerm,
+    setSearchTerm,
+    filteredCharacters,
+    activeIndex,
+    handleKeyDown,
+  } = useCharacterSearch();
+
   const ref = useRef<HTMLDivElement>(null);
 
   useOutSideClick({
@@ -30,10 +36,8 @@ const CharacterSearch: React.FC<CharacterSearchProps> = ({
   };
 
   const getAvailableCharacters = () => {
-    return characters.filter(
-      (character) =>
-        !selectedCharacterNames.includes(character.name) &&
-        character.name.toLowerCase().includes(searchTerm.toLowerCase())
+    return filteredCharacters.filter(
+      (character) => !selectedCharacterNames.includes(character.name)
     );
   };
 
@@ -54,14 +58,18 @@ const CharacterSearch: React.FC<CharacterSearchProps> = ({
             placeholder="캐릭터 검색"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
             className="character-search"
           />
           <ul className="character-select">
-            {getAvailableCharacters().map((character) => (
+            {getAvailableCharacters().map((character, index) => (
               <li
                 key={character.name}
-                className="character-option"
-                onClick={() => onCharacterClick(character)}
+                className={index === activeIndex ? "active" : ""}
+                onClick={() => {
+                  onCharacterClick(character);
+                  setIsOpen(false);
+                }}
               >
                 {character.name}
               </li>
@@ -71,6 +79,4 @@ const CharacterSearch: React.FC<CharacterSearchProps> = ({
       )}
     </div>
   );
-};
-
-export default CharacterSearch;
+}
