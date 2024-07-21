@@ -1,6 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useCharacterStore } from "../../stores/useCharacterStore";
 import { CharactersContext } from "../../context/CharactersContext";
+import { useKeyboardNavigation } from "../../hooks/useKeyboardNavigation"; // 훅을 import 합니다.
 import "./style.css";
 
 export default function CharacterSelector() {
@@ -11,7 +12,21 @@ export default function CharacterSelector() {
   );
   const [searchName, setSearchName] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState("");
-  const [activeIndex, setActiveIndex] = useState(-1);
+
+  const filteredCharacters = characters.filter((character) =>
+    character.name.toLowerCase().includes(searchName.toLowerCase())
+  );
+
+  const { activeIndex, handleKeyDown } = useKeyboardNavigation(
+    filteredCharacters.length,
+    (index) => {
+      if (index >= 0 && index < filteredCharacters.length) {
+        handleCharacterSelect(filteredCharacters[index].name);
+      } else {
+        handleCharacterSelect(searchName.trim());
+      }
+    }
+  );
 
   const handleCharacterSelect = (name: string) => {
     const character = characters.find((c) => c.name === name);
@@ -31,37 +46,10 @@ export default function CharacterSelector() {
       }
       setSelectedCharacter(name);
       setSearchName("");
-      setActiveIndex(-1);
     } else {
       alert("해당 이름의 캐릭터가 없습니다.");
     }
   };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      if (activeIndex >= 0 && activeIndex < filteredCharacters.length) {
-        handleCharacterSelect(filteredCharacters[activeIndex].name);
-      } else {
-        handleCharacterSelect(searchName.trim());
-      }
-    } else if (e.key === "ArrowDown") {
-      setActiveIndex((prevIndex) =>
-        prevIndex < filteredCharacters.length - 1 ? prevIndex + 1 : prevIndex
-      );
-    } else if (e.key === "ArrowUp") {
-      setActiveIndex((prevIndex) =>
-        prevIndex > 0 ? prevIndex - 1 : prevIndex
-      );
-    }
-  };
-
-  const filteredCharacters = characters.filter((character) =>
-    character.name.toLowerCase().includes(searchName.toLowerCase())
-  );
-
-  useEffect(() => {
-    setActiveIndex(-1);
-  }, [searchName]);
 
   return (
     <div className="character-selector">
@@ -87,7 +75,6 @@ export default function CharacterSelector() {
                 onClick={() => {
                   setSelectedCharacter(character.name);
                   setSearchName(character.name);
-                  setActiveIndex(-1);
                 }}
               >
                 {character.name}
