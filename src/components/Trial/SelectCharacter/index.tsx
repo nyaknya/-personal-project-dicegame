@@ -1,9 +1,8 @@
 import "./style.css";
 import CurrentCharacter from "../CurrentCharacter";
 import usePeopleCounterStore from "../../../stores/usePeopleCounterStore";
-import { useEffect, useContext, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useCharacterStore } from "../../../stores/useCharacterStore";
-import { CharactersContext } from "../../../context/CharactersContext";
 import { CharacterState } from "../../../types";
 
 export default function SelectCharacter() {
@@ -15,13 +14,11 @@ export default function SelectCharacter() {
   const toggleAllSelections = useCharacterStore(
     (state) => state.toggleAllSelections
   );
-  const { characters } = useContext(CharactersContext);
   const [selectAll, setSelectAll] = useState(false);
   const [sortKey, setSortKey] = useState<
     "aggressive" | "creativity" | "kindness"
   >("aggressive");
 
-  // 상태 초기화 로직을 useCallback으로 분리하여 의존성을 관리
   const initializeStates = useCallback(() => {
     if (characterStates.length < count) {
       const additionalCharacters: CharacterState[] = Array.from(

@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useCharacterStore } from "../../stores/useCharacterStore";
 import { CharactersContext } from "../../context/CharactersContext";
-import { useKeyboardNavigation } from "../../hooks/useKeyboardNavigation"; // 훅을 import 합니다.
+import { useKeyboardNavigation } from "../../hooks/useKeyboardNavigation";
 import "./style.css";
 
 export default function CharacterSelector() {

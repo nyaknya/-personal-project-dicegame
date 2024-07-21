@@ -1,19 +1,17 @@
 import "./style.css";
-import { useContext, useRef, useState, useEffect } from "react";
-import { CharactersContext } from "../../../context/CharactersContext";
-import useOutSideClick from "../../../hooks/useOutSideClick";
+import { useState, useEffect } from "react";
+import { useCharacterStore } from "../../../stores/useCharacterStore";
 import { Character, CharacterState } from "../../../types";
 import SelectBox from "./SelectBox";
 import SelectStats from "./SelectStats";
 import SelectCondition from "./SelectCondition";
-import { useCharacterStore } from "../../../stores/useCharacterStore";
+import CharacterSearch from "./CharacterSearch";
 
 interface CurrentCharacterProps {
   index: number;
 }
 
-const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
-  const { characters } = useContext(CharactersContext);
+export default function CurrentCharacter({ index }: CurrentCharacterProps) {
   const characterState = useCharacterStore(
     (state) => state.characterStates[index]
   );
@@ -25,18 +23,6 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
   );
   const characterStates = useCharacterStore((state) => state.characterStates);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const ref = useRef<HTMLDivElement>(null);
-
-  useOutSideClick({
-    ref,
-    callback: () => setIsOpen(false),
-  });
-
-  const toggleOpenClose = () => {
-    setIsOpen(!isOpen);
-    setSearchTerm(""); // 검색어 초기화
-  };
 
   const handleCharacterClick = (character: Character) => {
     const updatedState: CharacterState = {
@@ -53,7 +39,7 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
         creativity: character.creativity,
         kindness: character.kindness,
       },
-      isSelected: characterState.isSelected, // 초기값 유지
+      isSelected: characterState.isSelected,
     };
     if (character.status === "weakness") {
       updatedState.stats = {
@@ -131,17 +117,6 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
     updateCharacterState(index, updatedState);
   };
 
-  const getAvailableCharacters = () => {
-    const selectedCharacters = characterStates
-      .filter((state) => state.character)
-      .map((state) => state.character?.name);
-    return characters.filter(
-      (character) =>
-        !selectedCharacters.includes(character.name) &&
-        character.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  };
-
   const handleCheckboxChange = () => {
     toggleCharacterSelection(index);
   };
@@ -155,6 +130,10 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
     updateCharacterState(index, updatedState);
   };
 
+  const selectedCharacterNames = characterStates
+    .filter((state) => state.character)
+    .map((state) => state.character?.name) as string[];
+
   return (
     <div
       className={`selected-character ${
@@ -165,43 +144,11 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
         checked={characterState.isSelected}
         onChange={handleCheckboxChange}
       />
-      <div className="select-list" ref={ref}>
-        <div
-          className={`now-selected ${
-            characterState.character ? "" : "no-selection"
-          }`}
-          onClick={toggleOpenClose}
-        >
-          {characterState.character ? characterState.character.name : "-"}
-          {isOpen ? (
-            <img src="/images/up.svg" alt="위 화살표" />
-          ) : (
-            <img src="/images/down.svg" alt="아래 화살표" />
-          )}
-        </div>
-        {isOpen && (
-          <>
-            <input
-              type="text"
-              placeholder="캐릭터 검색"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="character-search"
-            />
-            <ul className="character-select">
-              {getAvailableCharacters().map((character) => (
-                <li
-                  key={character.name}
-                  className="character-option"
-                  onClick={() => handleCharacterClick(character)}
-                >
-                  {character.name}
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
+      <CharacterSearch
+        onCharacterClick={handleCharacterClick}
+        selectedCharacterNames={selectedCharacterNames}
+        selectedCharacter={characterState.character}
+      />
       {characterState.character && (
         <>
           <SelectStats
@@ -221,6 +168,4 @@ const CurrentCharacter: React.FC<CurrentCharacterProps> = ({ index }) => {
       )}
     </div>
   );
-};
-
-export default CurrentCharacter;
+}
