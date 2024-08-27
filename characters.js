@@ -1,6 +1,6 @@
 const characters = [
   {
-    name: "노아 시브라이트",
+    name: "character1",
     max_hp: 100,
     current_hp: 100,
     max_mental: 115,
@@ -12,7 +12,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "메리제인",
+    name: "character2",
     max_hp: 140,
     current_hp: 140,
     max_mental: 105,
@@ -24,7 +24,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "후안 살라자르",
+    name: "character3",
     max_hp: 110,
     current_hp: 110,
     max_mental: 105,
@@ -36,7 +36,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "벅 덴맨",
+    name: "character4",
     max_hp: 150,
     current_hp: 150,
     max_mental: 100,
@@ -48,7 +48,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "헤일리 데어",
+    name: "character5",
     max_hp: 70,
     current_hp: 70,
     max_mental: 125,
@@ -60,7 +60,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "미카엘라 에반스",
+    name: "character6",
     max_hp: 110,
     current_hp: 110,
     max_mental: 115,
@@ -72,7 +72,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "데보라 커닝햄",
+    name: "character7",
     max_hp: 110,
     current_hp: 110,
     max_mental: 115,
@@ -84,7 +84,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "루크 하퍼",
+    name: "character8",
     max_hp: 150,
     current_hp: 150,
     max_mental: 100,
@@ -96,7 +96,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "미아 로페즈",
+    name: "character9",
     max_hp: 90,
     current_hp: 90,
     max_mental: 110,
@@ -108,7 +108,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "헬렌 헤이스",
+    name: "character10",
     max_hp: 90,
     current_hp: 90,
     max_mental: 120,
@@ -120,7 +120,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "제이크 던트",
+    name: "character11",
     max_hp: 100,
     current_hp: 100,
     max_mental: 110,
@@ -132,7 +132,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "케이티 하워드",
+    name: "character12",
     max_hp: 140,
     current_hp: 140,
     max_mental: 100,
@@ -144,7 +144,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "로즈 로저스",
+    name: "character13",
     max_hp: 80,
     current_hp: 80,
     max_mental: 120,
@@ -156,7 +156,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "사만다 장",
+    name: "character14",
     max_hp: 140,
     current_hp: 140,
     max_mental: 105,
@@ -168,7 +168,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "클로딘 시모어",
+    name: "character15",
     max_hp: 140,
     current_hp: 140,
     max_mental: 105,
@@ -180,7 +180,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "데니스 뱌차닌",
+    name: "character16",
     max_hp: 130,
     current_hp: 130,
     max_mental: 100,
@@ -192,7 +192,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "제인 호프만",
+    name: "character17",
     max_hp: 140,
     current_hp: 140,
     max_mental: 105,
@@ -204,7 +204,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "센트로 로렌조",
+    name: "character18",
     max_hp: 90,
     current_hp: 90,
     max_mental: 120,
@@ -216,7 +216,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "데비 한",
+    name: "character19",
     max_hp: 140,
     current_hp: 140,
     max_mental: 100,
@@ -228,7 +228,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "펠릭스 토레스",
+    name: "character20",
     max_hp: 150,
     current_hp: 150,
     max_mental: 100,
@@ -240,7 +240,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "아이작 캐터펄트",
+    name: "character21",
     max_hp: 110,
     current_hp: 110,
     max_mental: 110,
@@ -252,7 +252,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "로버트 월터",
+    name: "character22",
     max_hp: 80,
     current_hp: 80,
     max_mental: 120,
@@ -264,7 +264,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "션 우즈",
+    name: "character23",
     max_hp: 110,
     current_hp: 110,
     max_mental: 105,
@@ -276,7 +276,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "헨리 번즈",
+    name: "character24",
     max_hp: 140,
     current_hp: 140,
     max_mental: 100,
@@ -288,7 +288,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "잭 포말로",
+    name: "character25",
     max_hp: 130,
     current_hp: 130,
     max_mental: 100,
@@ -300,7 +300,7 @@ const characters = [
     equipment: null,
   },
   {
-    name: "카일라 무어",
+    name: "character26",
     max_hp: 110,
     current_hp: 100,
     max_mental: 105,
